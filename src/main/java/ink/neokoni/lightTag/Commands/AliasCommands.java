@@ -20,6 +20,10 @@ import java.util.List;
 public class AliasCommands {
     public LiteralArgumentBuilder<CommandSourceStack> getBuilt(String root) {
         return Commands.literal(root)
+                .executes(ctx -> {
+                    new PrintHelp(ctx.getSource().getSender());
+                    return Command.SINGLE_SUCCESS;
+                })
                 .then(Commands.literal("reload")
                         .requires(ctx -> ctx.getSender().hasPermission("lighttag.reload"))
                         .executes(ctx->{
