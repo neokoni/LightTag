@@ -8,7 +8,11 @@ import ink.neokoni.lightTag.Commands.Functions.*;
 import ink.neokoni.lightTag.GUIs.SetTagGUI;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
+import io.papermc.paper.command.brigadier.argument.resolvers.selector.PlayerSelectorArgumentResolver;
 import org.bukkit.entity.Player;
+
+import java.util.List;
 
 public class AliasCommands {
     public LiteralArgumentBuilder<CommandSourceStack> getBuilt(String root) {
@@ -63,6 +67,19 @@ public class AliasCommands {
                     .executes(ctx -> {
                         new ClearTag(ctx.getSource().getSender());
                         return Command.SINGLE_SUCCESS;
-                    }));
+                    }))
+                .then(Commands.literal("give")
+                        .then(Commands.argument("Player(s)", ArgumentTypes.players())
+                                .then(Commands.argument("id", IntegerArgumentType.integer(0))
+                                        .executes(ctx -> {
+                                            PlayerSelectorArgumentResolver targetResolver = ctx.getArgument("Player(s)", PlayerSelectorArgumentResolver.class);
+                                            List<Player> players = targetResolver.resolve(ctx.getSource());
+                                            int id = ctx.getArgument("id", Integer.class);
+                                            new GiveTag(ctx.getSource().getSender(), players, id);
+                                            return Command.SINGLE_SUCCESS;
+                                        }))))
+                .then(Commands.literal("almanac"))
+                .then(Commands.literal("save"))
+                .then(Commands.literal("help"));
     }
 }

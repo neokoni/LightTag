@@ -11,3 +11,9 @@ tag:
 list:
   head: "<color:#ffdbab>你目前拥有以下{total}个称号"
   nothing: "<color:#ffdbab>咱似乎还没有任何称号... :("
+
+give:
+  successes: "<color:#ffdbab>已给予玩家{player}称号{tag}"
+  exist: "<color:#ffdbab>玩家{player}已拥有称号{tag}"
+  result: "<color:#ffdbab>已为{total}玩家添加称号{tag}"
+  added: "<color:#ffdbab>您已被添加称号{tag}"
