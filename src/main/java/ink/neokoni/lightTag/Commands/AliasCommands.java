@@ -7,6 +7,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import ink.neokoni.lightTag.Commands.Functions.*;
 import ink.neokoni.lightTag.DataStorage.PlayerDatas;
 import ink.neokoni.lightTag.DataStorage.Tags;
+import ink.neokoni.lightTag.GUIs.MainGUI;
 import ink.neokoni.lightTag.GUIs.SetTagGUI;
 import ink.neokoni.lightTag.Utils.TextUtils;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -21,7 +22,10 @@ public class AliasCommands {
     public LiteralArgumentBuilder<CommandSourceStack> getBuilt(String root) {
         return Commands.literal(root)
                 .executes(ctx -> {
-                    new PrintHelp(ctx.getSource().getSender());
+                    if (!(ctx.getSource().getSender() instanceof Player player)) {
+                        return Command.SINGLE_SUCCESS;
+                    }
+                    new MainGUI(player).open();
                     return Command.SINGLE_SUCCESS;
                 })
                 .then(Commands.literal("reload")

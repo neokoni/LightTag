@@ -50,6 +50,16 @@ public class ChestMenu {
         customDatas[slot] = data;
     }
 
+    public void fillFreeWith(ItemStack item) {
+        for (int i = 0; i < size; i++) {
+            if (items[i]!=null) {
+                continue;
+            }
+
+            items[i] = item;
+        }
+    }
+
     public void open(Player player) {
         menu = Bukkit.createInventory(null, size, title);
         for (int i = 0; i < size; i++) {
