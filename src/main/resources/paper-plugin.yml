@@ -4,6 +4,7 @@ main: ink.neokoni.lightTag.LightTag
 api-version: '1.21'
 authors: [ Neokoni ]
 website: https://github.com/Neokoni/LightTag
+contributors: [Jason31416]
 
 folia-supported: true
 
