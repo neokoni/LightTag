@@ -21,3 +21,14 @@ give:
 
 almanac:
   overview: "<color:#ffdbab>当前服务器共有以下{total}个称号"
+
+help:
+  - "<color:#ffdbab>/ltag add 添加称号"
+  - "<color:#ffdbab>/ltag almanac 服务器称号图鉴"
+  - "<color:#ffdbab>/ltag clear 停用称号"
+  - "<color:#ffdbab>/ltag give 给予称号"
+  - "<color:#ffdbab>/ltag help 显示帮助信息"
+  - "<color:#ffdbab>/ltag list 显示拥有的称号"
+  - "<color:#ffdbab>/ltag reload 重载配置文件"
+  - "<color:#ffdbab>/ltag save 立即保存数据"
+  - "<color:#ffdbab>/ltag set 设置称号"

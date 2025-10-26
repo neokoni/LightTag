@@ -13,12 +13,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class LightTag extends JavaPlugin {
     private static LightTag instance;
-    public static final int tagN = -23351;
+    public static String version;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
         instance = this; // init instance
+        version = this.getPluginMeta().getVersion();
 
         Configs.loadConfig(); // init configs
         Languages.loadLanguage();

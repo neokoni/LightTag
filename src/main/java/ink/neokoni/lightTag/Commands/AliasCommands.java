@@ -93,6 +93,10 @@ public class AliasCommands {
                             ctx.getSource().getSender().sendMessage(TextUtils.getFormatedLang("system.saved"));
                             return Command.SINGLE_SUCCESS;
                         }))
-                .then(Commands.literal("help"));
+                .then(Commands.literal("help")
+                        .executes(ctx -> {
+                            new PrintHelp(ctx.getSource().getSender());
+                            return Command.SINGLE_SUCCESS;
+                        }));
     }
 }
