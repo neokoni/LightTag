@@ -78,7 +78,11 @@ public class AliasCommands {
                                             new GiveTag(ctx.getSource().getSender(), players, id);
                                             return Command.SINGLE_SUCCESS;
                                         }))))
-                .then(Commands.literal("almanac"))
+                .then(Commands.literal("almanac")
+                        .executes(ctx -> {
+                            new AlmanacOfTags(ctx.getSource().getSender());
+                            return Command.SINGLE_SUCCESS;
+                        }))
                 .then(Commands.literal("save"))
                 .then(Commands.literal("help"));
     }
