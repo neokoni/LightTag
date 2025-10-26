@@ -5,7 +5,10 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import ink.neokoni.lightTag.Commands.Functions.*;
+import ink.neokoni.lightTag.DataStorage.PlayerDatas;
+import ink.neokoni.lightTag.DataStorage.Tags;
 import ink.neokoni.lightTag.GUIs.SetTagGUI;
+import ink.neokoni.lightTag.Utils.TextUtils;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
@@ -83,7 +86,13 @@ public class AliasCommands {
                             new AlmanacOfTags(ctx.getSource().getSender());
                             return Command.SINGLE_SUCCESS;
                         }))
-                .then(Commands.literal("save"))
+                .then(Commands.literal("save")
+                        .executes(ctx -> {
+                            PlayerDatas.writeToFile();
+                            Tags.writeToFile();
+                            ctx.getSource().getSender().sendMessage(TextUtils.getFormatedLang("system.saved"));
+                            return Command.SINGLE_SUCCESS;
+                        }))
                 .then(Commands.literal("help"));
     }
 }

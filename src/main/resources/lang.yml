@@ -1,6 +1,7 @@
 system:
   reload-success: "<color:#ffdbab>重载配置文件成功"
   player-only: "<color:#ffdbab>仅玩家可运行此命令"
+  saved: "<color:#ffdbab>已保存称号与玩家数据"
 
 tag:
   not-have: "<color:#ffdbab>你还没有这个称号"
