@@ -1,9 +1,9 @@
 package ink.neokoni.lightTag.Utils;
 
 import ink.neokoni.lightTag.DataStorage.Tags;
+import ink.neokoni.lightTag.LightTag;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.util.ArrayList;
@@ -67,7 +67,7 @@ public class TagUtils {
                 try {
                     banner = Tags.getTags().getStringList(id+".content").getFirst();
                 } catch (NoSuchElementException e) {
-                    Bukkit.getLogger().warning("Tag id: "+id+" not have type and not animation");
+                    LightTag.getInstance().getLogger().warning("Tag id: "+id+" not have type and not animation");
                 }
 //                if (banner==null) {
 //                    banner = Tags.getTags().getStringList(id+".content").getFirst();

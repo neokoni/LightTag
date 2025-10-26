@@ -1,12 +1,10 @@
 package ink.neokoni.lightTag.DataStorage;
 
 import ink.neokoni.lightTag.LightTag;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
 
 public class PlayerDatas {
     private static File pluginFolder = LightTag.getInstance().getDataFolder();
@@ -20,7 +18,7 @@ public class PlayerDatas {
             File file = new File(pluginFolder, "PlayerData.yml");
             playerData.save(file);
         } catch (IOException e) {
-            Bukkit.getLogger().log(Level.SEVERE, "FAILED TO CREATE PlayerData FILE!");
+            LightTag.getInstance().getLogger().severe("FAILED TO CREATE PlayerData FILE!");
         }
     }
 
