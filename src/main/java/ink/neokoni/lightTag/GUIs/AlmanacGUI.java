@@ -3,12 +3,14 @@ package ink.neokoni.lightTag.GUIs;
 import ink.neokoni.lightTag.DataStorage.Caches;
 import ink.neokoni.lightTag.DataStorage.Tags;
 import ink.neokoni.lightTag.GUIs.Base.ChestMenu;
+import ink.neokoni.lightTag.Utils.Item.ItemCustomDataUtils;
 import ink.neokoni.lightTag.Utils.TagUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -60,6 +62,7 @@ public class AlmanacGUI {
         }
 
         menu.put(back, 45);
+        menu.setCustomData(45, "OpenPage:MainGUI");
         menu.put(previous, 48);
         menu.put(next, 50);
 
@@ -89,5 +92,21 @@ public class AlmanacGUI {
     public void open() {
         menu.open(player);
         Caches.almanacGUI.put(menu.getInv(), this);
+    }
+
+    public void handleClick(InventoryClickEvent e) {
+        if (!(e.getWhoClicked() instanceof Player player)) {
+            return;
+        }
+        ItemStack item = e.getCurrentItem();
+        if (item==null) {
+            return;
+        }
+
+        String back = ItemCustomDataUtils.getString(item, menu, "OpenPage");
+        if (back==null)return;
+        if (back.equals("MainGUI")) {
+            new MainGUI(player).open();
+        }
     }
 }

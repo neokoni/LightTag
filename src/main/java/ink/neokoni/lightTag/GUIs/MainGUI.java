@@ -3,10 +3,12 @@ package ink.neokoni.lightTag.GUIs;
 import ink.neokoni.lightTag.DataStorage.Caches;
 import ink.neokoni.lightTag.DataStorage.PlayerDatas;
 import ink.neokoni.lightTag.GUIs.Base.ChestMenu;
+import ink.neokoni.lightTag.Utils.Item.ItemCustomDataUtils;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -89,5 +91,33 @@ public class MainGUI {
     public void open() {
         menu.open(player);
         Caches.mainGUI.put(menu.getInv(), this);
+    }
+
+    public void handleClick(InventoryClickEvent e) {
+        if (!(e.getWhoClicked() instanceof Player player)) {
+            return;
+        }
+        ItemStack item = e.getCurrentItem();
+        if (item==null) {
+            return;
+        }
+
+        String newPage = ItemCustomDataUtils.getString(item, menu, "OpenPage");
+        if (newPage==null)return;
+
+        switch (newPage) {
+            case "SetTagGUI": {
+                new SetTagGUI(player).open();
+                return;
+            }
+            case "BuyTagGUI": {
+                new BuyTagGUI(player).open();
+                return;
+            }
+            case "AlmanacGUI": {
+                new AlmanacGUI(player).open();
+                return;
+            }
+        }
     }
 }

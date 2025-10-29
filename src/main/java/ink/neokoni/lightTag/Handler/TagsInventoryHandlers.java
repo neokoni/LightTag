@@ -2,7 +2,6 @@ package ink.neokoni.lightTag.Handler;
 
 import ink.neokoni.lightTag.DataStorage.Caches;
 import ink.neokoni.lightTag.LightTag;
-import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -21,9 +20,19 @@ public class TagsInventoryHandlers implements Listener {
         if (clicked==null) { // not click inside inventory
             return;
         }
-        if (Caches.setTagGUI.containsKey(e.getClickedInventory())) {
-            e.setCancelled(true);
-            Caches.setTagGUI.get(e.getClickedInventory()).handleClick(e);
+        if (!isOurInv(clicked)) {
+            return;
+        }
+        e.setCancelled(true);
+
+        if (Caches.almanacGUI.containsKey(clicked)) {
+            Caches.almanacGUI.get(clicked).handleClick(e);
+        } else if (Caches.setTagGUI.containsKey(clicked)) {
+            Caches.setTagGUI.get(clicked).handleClick(e);
+        } else if (Caches.mainGUI.containsKey(clicked)) {
+            Caches.mainGUI.get(clicked).handleClick(e);
+        } else if (Caches.buyTagGUI.containsKey(clicked)) {
+            Caches.buyTagGUI.get(clicked).handleClick(e);
         }
     }
 
@@ -32,5 +41,12 @@ public class TagsInventoryHandlers implements Listener {
         Inventory closed = e.getInventory();
 
         Caches.setTagGUI.remove(closed);
+    }
+
+    private boolean isOurInv(Inventory inv) {
+        return Caches.setTagGUI.containsKey(inv) ||
+                Caches.mainGUI.containsKey(inv) ||
+                Caches.almanacGUI.containsKey(inv) ||
+                Caches.buyTagGUI.containsKey(inv);
     }
 }

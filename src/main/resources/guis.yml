@@ -1,0 +1,50 @@
+main: ""
+set:
+  title: "<yellow>LightTag"
+  ui:
+    - "ooooooooo"
+    - "o-------o"
+    - "o-------o"
+    - "o-------o"
+    - "o-------o"
+    - "aoobocooo"
+  tag:
+    material: NAME_TAG
+    amount: 1
+    lore:
+      - "称号: {TagView}"
+      - "{TagType}"
+      - "ID: {TagId}"
+      - ""
+      - "点击使用"
+  items:
+    o:
+      material: "WHITE_STAINED_GLASS_PANE"
+      amount: 1
+      title: ""
+    a:
+      material: "ARROW"
+      amount: 1
+      title: "返回上一页"
+      actions:
+        - "OpenPage:MainGUI"
+    b:
+      material: "TIPPED_ARROW"
+      amount: 1
+      title: "上一页"
+      flags:
+        - HIDE_ADDITIONAL_TOOLTIP
+      potion: "SLOW_FALLING"
+      actions:
+        - "Pages:Previous"
+    c:
+      material: "TIPPED_ARROW"
+      amount: 1
+      title: "下一页"
+      flags:
+        - HIDE_ADDITIONAL_TOOLTIP
+      potion: "WIND_CHARGED"
+      actions:
+        - "Pages:Next"
+buy: ""
+almanac: ""
