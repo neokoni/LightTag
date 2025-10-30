@@ -105,6 +105,13 @@ public class AliasCommands {
                         .executes(ctx -> {
                             new PrintHelp(ctx.getSource().getSender());
                             return Command.SINGLE_SUCCESS;
-                        }));
+                        })
+                )
+                .then(Commands.literal("debug")
+                        .then(Commands.literal("save_deserialized_item_to_file")
+                                .executes(ctx -> {
+                                    new DeserializeItemToFile(ctx.getSource().getSender());
+                                    return Command.SINGLE_SUCCESS;
+                                })));
     }
 }
