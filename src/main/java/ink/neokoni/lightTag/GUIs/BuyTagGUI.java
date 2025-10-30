@@ -3,7 +3,7 @@ package ink.neokoni.lightTag.GUIs;
 import ink.neokoni.lightTag.DataStorage.Caches;
 import ink.neokoni.lightTag.DataStorage.Tags;
 import ink.neokoni.lightTag.GUIs.Base.ChestMenu;
-import ink.neokoni.lightTag.Utils.Item.ItemCustomDataUtils;
+import ink.neokoni.lightTag.Utils.ItemActionExecutor;
 import ink.neokoni.lightTag.Utils.TagUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -61,7 +61,7 @@ public class BuyTagGUI {
         }
 
         menu.put(back, 45);
-        menu.setCustomData(45, "OpenPage:MainGUI");
+        menu.setItemActions(back, List.of("OpenPage:MainGUI"));
         menu.put(previous, 48);
         menu.put(next, 50);
 
@@ -97,14 +97,8 @@ public class BuyTagGUI {
             return;
         }
         ItemStack item = e.getCurrentItem();
-        if (item==null) {
-            return;
-        }
-
-        String back = ItemCustomDataUtils.getString(item, menu, "OpenPage");
-        if (back==null)return;
-        if (back.equals("MainGUI")) {
-            new MainGUI(player).open();
+        if (item!=null) {
+            ItemActionExecutor.run(menu, menu.getItemActions(item), player);
         }
     }
 }

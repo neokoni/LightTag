@@ -1,11 +1,12 @@
 package ink.neokoni.lightTag.GUIs;
 
-import ink.neokoni.lightTag.Commands.Functions.SetTag;
 import ink.neokoni.lightTag.DataStorage.Caches;
+import ink.neokoni.lightTag.DataStorage.Templates;
 import ink.neokoni.lightTag.DataStorage.PlayerDatas;
 import ink.neokoni.lightTag.DataStorage.Tags;
 import ink.neokoni.lightTag.GUIs.Base.ChestMenu;
-import ink.neokoni.lightTag.Utils.Item.ItemCustomDataUtils;
+import ink.neokoni.lightTag.GUIs.Base.Template;
+import ink.neokoni.lightTag.Utils.ItemActionExecutor;
 import ink.neokoni.lightTag.Utils.TagUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -23,7 +24,7 @@ public class SetTagGUI {
     private ChestMenu menu;
     public SetTagGUI(Player player) {
         this.player = player;
-        menu = new ChestMenu(6);
+        menu = new Template(Templates.getTemplates(), "set").get();
 
         YamlConfiguration data = PlayerDatas.getPlayerData();
         List<Integer> owns = data.getIntegerList(this.player.getUniqueId()+".owns");
@@ -46,7 +47,7 @@ public class SetTagGUI {
             ));
             tagItem.setItemMeta(meta);
 
-            menu.put(tagItem, "TagID:"+i);
+            menu.setItemActions(tagItem, List.of("SetTag:"+i));
         }
 
         menu.setTitle("<yellow>设置称号");
@@ -68,16 +69,8 @@ public class SetTagGUI {
 
         ItemStack item = event.getCurrentItem();
 
-        if (item!=null&& ItemCustomDataUtils.getInt(item, menu, "TagID") > -1) {
-            int id = ItemCustomDataUtils.getInt(item, menu, "TagID");
-
-            new SetTag(player, id);
-            Caches.setTagGUI.remove(event.getClickedInventory());
-            event.getInventory().close();
-            return;
+        if (item!=null) {
+            ItemActionExecutor.run(menu, menu.getItemActions(item), player);
         }
-
-        // todo: other is placeholder item or other functions
-
     }
 }

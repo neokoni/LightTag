@@ -6,16 +6,19 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class ChestMenu {
     private Component title = Component.text("Untitled");
     private int size = 9;
     private ItemStack[] items = new ItemStack[size];
     private Inventory menu;
-    private String[] customDatas;
+    private Map<ItemStack, List<String>> itemActions = new HashMap<>();
     public ChestMenu(int row) {
         size = row*9;
         items = new ItemStack[size];
-        customDatas = new String[size];
     }
 
     public void setTitle(String title) {
@@ -37,17 +40,12 @@ public class ChestMenu {
         }
     }
 
-    public void put(ItemStack item, String customData) {
-        int cur_slot = 0;
-        while (items[cur_slot]!=null&&cur_slot<55) {
-            cur_slot++;
-        }
-        items[cur_slot] = item;
-        customDatas[cur_slot] = customData;
+    public void setItemActions(Map<ItemStack, List<String>> actions) {
+        itemActions = actions;
     }
 
-    public void setCustomData(int slot, String data) {
-        customDatas[slot] = data;
+    public void setItemActions(ItemStack item, List<String> actions) {
+        itemActions.put(item, actions);
     }
 
     public void fillFreeWith(ItemStack item) {
@@ -73,11 +71,11 @@ public class ChestMenu {
         return menu;
     }
 
-    public String getCustomData(int slot) {
-        return customDatas[slot];
-    }
-
     public int getSize() {
         return size;
+    }
+
+    public List<String> getItemActions(ItemStack item) {
+        return itemActions.get(item);
     }
 }

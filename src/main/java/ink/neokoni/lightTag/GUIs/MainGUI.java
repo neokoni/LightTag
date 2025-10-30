@@ -3,7 +3,7 @@ package ink.neokoni.lightTag.GUIs;
 import ink.neokoni.lightTag.DataStorage.Caches;
 import ink.neokoni.lightTag.DataStorage.PlayerDatas;
 import ink.neokoni.lightTag.GUIs.Base.ChestMenu;
-import ink.neokoni.lightTag.Utils.Item.ItemCustomDataUtils;
+import ink.neokoni.lightTag.Utils.ItemActionExecutor;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -72,13 +72,13 @@ public class MainGUI {
         panel.setItemMeta(panelMeta);
 
         menu.put(setTag, 10);
-        menu.setCustomData(10, "OpenPage:SetTagGUI");
+        menu.setItemActions(setTag, List.of("OpenPage:SetTagGUI"));
 
         menu.put(buyTag, 12);
-        menu.setCustomData(12, "OpenPage:BuyTagGUI");
+        menu.setItemActions(buyTag, List.of("OpenPage:BuyTagGUI"));
 
         menu.put(almanac, 14);
-        menu.setCustomData(14, "OpenPage:AlmanacGUI");
+        menu.setItemActions(almanac, List.of("OpenPage:AlmanacGUI"));
 
         menu.put(playerInfo, 16);
         menu.put(clear, 26);
@@ -98,26 +98,8 @@ public class MainGUI {
             return;
         }
         ItemStack item = e.getCurrentItem();
-        if (item==null) {
-            return;
-        }
-
-        String newPage = ItemCustomDataUtils.getString(item, menu, "OpenPage");
-        if (newPage==null)return;
-
-        switch (newPage) {
-            case "SetTagGUI": {
-                new SetTagGUI(player).open();
-                return;
-            }
-            case "BuyTagGUI": {
-                new BuyTagGUI(player).open();
-                return;
-            }
-            case "AlmanacGUI": {
-                new AlmanacGUI(player).open();
-                return;
-            }
+        if (item!=null) {
+            ItemActionExecutor.run(menu, menu.getItemActions(item), player);
         }
     }
 }
