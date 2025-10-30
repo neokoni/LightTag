@@ -13,7 +13,7 @@ import java.util.Map;
 public class ChestMenu {
     private Component title = Component.text("Untitled");
     private int size = 9;
-    private ItemStack[] items = new ItemStack[size];
+    private ItemStack[] items;
     private Inventory menu;
     private Map<ItemStack, List<String>> itemActions = new HashMap<>();
     public ChestMenu(int row) {
