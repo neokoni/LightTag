@@ -20,7 +20,6 @@ public class Configs {
     public static void loadConfig() {
         if (!isConfigExist()) {
             createConfigFile();
-            return;
         }
 
         File configFile = new File(pluginFolder, "config.yml");

@@ -25,7 +25,6 @@ public class PlayerDatas {
     public static void loadPlayerData() {
         if (!isPlayerDataExist()) {
             createDataFile();
-            return;
         }
 
         File dataFile = new File(pluginFolder, "PlayerData.yml");

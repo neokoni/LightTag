@@ -21,7 +21,6 @@ public class Tags {
     public static void loadTags() {
         if (!isTagsExist()) {
             createTagsFile();
-            return;
         }
 
         File tagsFile = new File(pluginFolder, "tags.yml");

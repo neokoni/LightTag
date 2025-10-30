@@ -15,7 +15,6 @@ public class Languages {
     public static void loadLanguage() {
         if (!isLanguageExist()) {
             LightTag.getInstance().saveResource("lang.yml", false);
-            return;
         }
 
         File langFile = new File(pluginFolder, "lang.yml");
