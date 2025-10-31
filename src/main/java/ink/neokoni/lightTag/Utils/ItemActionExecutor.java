@@ -78,7 +78,7 @@ public class ItemActionExecutor {
                             setTagGUI.previous();
                         }
                     }
-
+                    return;
                 }
                 case "Close": {
                     player.closeInventory();
