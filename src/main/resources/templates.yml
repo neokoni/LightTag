@@ -11,12 +11,16 @@ set:
   tag:
     material: NAME_TAG
     amount: 1
+    title: "{TagView}"
     lore:
       - "称号: {TagView}"
       - "{TagType}"
       - "ID: {TagId}"
       - ""
       - "点击使用"
+    actions:
+      - "SetTag:{TagId}"
+      - "Close:"
   items:
     o:
       material: "WHITE_STAINED_GLASS_PANE"
@@ -28,6 +32,7 @@ set:
       title: "返回上一页"
       actions:
         - "OpenPage:MainGUI"
+        - "Close:"
     b:
       material: "TIPPED_ARROW"
       amount: 1
@@ -37,6 +42,7 @@ set:
       potion: "SLOW_FALLING"
       actions:
         - "Pages:Previous"
+        - "Close:"
     c:
       material: "TIPPED_ARROW"
       amount: 1
@@ -46,5 +52,6 @@ set:
       potion: "WIND_CHARGED"
       actions:
         - "Pages:Next"
+        - "Close:"
 buy: ""
 almanac: ""
