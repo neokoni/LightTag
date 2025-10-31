@@ -3,9 +3,11 @@ package ink.neokoni.lightTag.GUIs.Base;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,5 +79,15 @@ public class ChestMenu {
 
     public List<String> getItemActions(ItemStack item) {
         return itemActions.get(item);
+    }
+
+    public List<Integer> getFreeSlot() {
+        List<Integer> slot = new ArrayList<>();
+        for (int i = 0; i<size; i++) {
+            if (items[i]==null||items[i].getType().equals(Material.AIR)) {
+                slot.add(i);
+            }
+        }
+        return slot;
     }
 }
