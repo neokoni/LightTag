@@ -6,7 +6,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-
 import org.bukkit.inventory.Inventory;
 
 public class TagsInventoryHandlers implements Listener {
@@ -16,23 +15,20 @@ public class TagsInventoryHandlers implements Listener {
 
     @EventHandler
     private void onClickInventory(InventoryClickEvent e) {
-        Inventory clicked = e.getClickedInventory();
-        if (clicked==null) { // not click inside inventory
-            return;
-        }
-        if (!isOurInv(clicked)) {
+        Inventory inv = e.getInventory();
+        if (!isOurInv(inv)) {
             return;
         }
         e.setCancelled(true);
 
-        if (Caches.almanacGUI.containsKey(clicked)) {
-            Caches.almanacGUI.get(clicked).handleClick(e);
-        } else if (Caches.setTagGUI.containsKey(clicked)) {
-            Caches.setTagGUI.get(clicked).handleClick(e);
-        } else if (Caches.mainGUI.containsKey(clicked)) {
-            Caches.mainGUI.get(clicked).handleClick(e);
-        } else if (Caches.buyTagGUI.containsKey(clicked)) {
-            Caches.buyTagGUI.get(clicked).handleClick(e);
+        if (Caches.almanacGUI.containsKey(inv)) {
+            Caches.almanacGUI.get(inv).handleClick(e);
+        } else if (Caches.setTagGUI.containsKey(inv)) {
+            Caches.setTagGUI.get(inv).handleClick(e);
+        } else if (Caches.mainGUI.containsKey(inv)) {
+            Caches.mainGUI.get(inv).handleClick(e);
+        } else if (Caches.buyTagGUI.containsKey(inv)) {
+            Caches.buyTagGUI.get(inv).handleClick(e);
         }
     }
 
