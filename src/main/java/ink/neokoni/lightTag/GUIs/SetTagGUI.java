@@ -22,9 +22,11 @@ import java.util.List;
 public class SetTagGUI {
     private Player player;
     private ChestMenu menu;
-    public SetTagGUI(Player player) {
+    private int cur_page;
+    public SetTagGUI(Player player, int page) {
         this.player = player;
         menu = new Template(Templates.getTemplates(), "set").get();
+        cur_page = page;
 
         YamlConfiguration data = PlayerDatas.getPlayerData();
         List<Integer> owns = data.getIntegerList(this.player.getUniqueId()+".owns");
@@ -73,4 +75,13 @@ public class SetTagGUI {
             ItemActionExecutor.run(menu, menu.getItemActions(item), player);
         }
     }
+
+    public void next() {
+        new SetTagGUI(player, cur_page+1);
+    }
+
+    public void previous() {
+        new SetTagGUI(player, cur_page-1);
+    }
+
 }

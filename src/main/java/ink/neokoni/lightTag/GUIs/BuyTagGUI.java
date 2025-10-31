@@ -22,9 +22,11 @@ import java.util.List;
 public class BuyTagGUI {
     private Player player;
     private ChestMenu menu;
-    public BuyTagGUI(Player player) {
+    private int cur_page;
+    public BuyTagGUI(Player player, int page) {
         this.player = player;
         menu = new ChestMenu(6);
+        cur_page = page;
 
         ItemStack panel = new ItemStack(Material.WHITE_STAINED_GLASS_PANE);
         ItemMeta panelMeta = panel.getItemMeta();
@@ -100,5 +102,13 @@ public class BuyTagGUI {
         if (item!=null) {
             ItemActionExecutor.run(menu, menu.getItemActions(item), player);
         }
+    }
+
+    public void next() {
+        new BuyTagGUI(player, cur_page+1);
+    }
+
+    public void previous() {
+        new BuyTagGUI(player, cur_page-1);
     }
 }

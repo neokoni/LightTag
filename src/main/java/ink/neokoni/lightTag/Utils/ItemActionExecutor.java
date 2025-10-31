@@ -1,6 +1,7 @@
 package ink.neokoni.lightTag.Utils;
 
 import ink.neokoni.lightTag.Commands.Functions.SetTag;
+import ink.neokoni.lightTag.DataStorage.Caches;
 import ink.neokoni.lightTag.GUIs.AlmanacGUI;
 import ink.neokoni.lightTag.GUIs.Base.ChestMenu;
 import ink.neokoni.lightTag.GUIs.BuyTagGUI;
@@ -35,11 +36,11 @@ public class ItemActionExecutor {
                 case "OpenPage": {
                     switch (value) {
                         case "AlmanacGUI": {
-                            new AlmanacGUI(player).open();
+                            new AlmanacGUI(player, 1).open();
                             return;
                         }
                         case "BuyTagGUI": {
-                            new BuyTagGUI(player).open();
+                            new BuyTagGUI(player, 1).open();
                             return;
                         }
                         case "MainGUI": {
@@ -47,13 +48,36 @@ public class ItemActionExecutor {
                             return;
                         }
                         case "SetTagGUI": {
-                            new SetTagGUI(player).open();
+                            new SetTagGUI(player, 1).open();
                             return;
                         }
                     }
                     return;
                 }
                 case "Pages": {
+                    AlmanacGUI almanacGUI = Caches.almanacGUI.get(menu.getInv());
+                    BuyTagGUI buyTagGUI = Caches.buyTagGUI.get(menu.getInv());
+                    SetTagGUI setTagGUI = Caches.setTagGUI.get(menu.getInv());
+
+                    if (almanacGUI!=null) {
+                        if (value.equals("Next")) {
+                            almanacGUI.next();
+                        } else if (value.equals("Previous")) {
+                            almanacGUI.previous();
+                        }
+                    } else if(buyTagGUI!=null) {
+                        if (value.equals("Next")) {
+                            buyTagGUI.next();
+                        } else if (value.equals("Previous")) {
+                            buyTagGUI.previous();
+                        }
+                    } else if(setTagGUI!=null) {
+                        if (value.equals("Next")) {
+                            setTagGUI.next();
+                        } else if (value.equals("Previous")) {
+                            setTagGUI.previous();
+                        }
+                    }
 
                 }
                 case "Close": {

@@ -22,9 +22,11 @@ import java.util.List;
 public class AlmanacGUI {
     private Player player;
     private ChestMenu menu;
-    public AlmanacGUI(Player player) {
+    private int cur_page = 1;
+    public AlmanacGUI(Player player, int page) {
         this.player = player;
         menu = new ChestMenu(6);
+        cur_page = page;
 
         ItemStack panel = new ItemStack(Material.WHITE_STAINED_GLASS_PANE);
         ItemMeta panelMeta = panel.getItemMeta();
@@ -101,6 +103,13 @@ public class AlmanacGUI {
         if (item!=null) {
             ItemActionExecutor.run(menu, menu.getItemActions(item), player);
         }
+    }
 
+    public void next() {
+        new AlmanacGUI(player, cur_page+1);
+    }
+
+    public void previous() {
+        new AlmanacGUI(player, cur_page-1);
     }
 }
