@@ -1,10 +1,7 @@
 package ink.neokoni.lightTag;
 
 import ink.neokoni.lightTag.Commands.Commands;
-import ink.neokoni.lightTag.DataStorage.Configs;
-import ink.neokoni.lightTag.DataStorage.Languages;
-import ink.neokoni.lightTag.DataStorage.PlayerDatas;
-import ink.neokoni.lightTag.DataStorage.Tags;
+import ink.neokoni.lightTag.DataStorage.*;
 import ink.neokoni.lightTag.Handler.PlayerJoinHandler;
 import ink.neokoni.lightTag.Handler.PlayerQuitHandler;
 import ink.neokoni.lightTag.Handler.TagsInventoryHandlers;
@@ -24,6 +21,7 @@ public final class LightTag extends JavaPlugin {
         Configs.loadConfig(); // init configs
         Languages.loadLanguage();
         Tags.loadTags();
+        Templates.loadTemplates();
         PlayerDatas.loadPlayerData();
 
         new Commands(); // register commands
