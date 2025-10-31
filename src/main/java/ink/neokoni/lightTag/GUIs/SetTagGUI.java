@@ -3,19 +3,15 @@ package ink.neokoni.lightTag.GUIs;
 import ink.neokoni.lightTag.DataStorage.Caches;
 import ink.neokoni.lightTag.DataStorage.Templates;
 import ink.neokoni.lightTag.DataStorage.PlayerDatas;
-import ink.neokoni.lightTag.DataStorage.Tags;
 import ink.neokoni.lightTag.GUIs.Base.ChestMenu;
 import ink.neokoni.lightTag.GUIs.Base.Template;
 import ink.neokoni.lightTag.Utils.ItemActionExecutor;
+import ink.neokoni.lightTag.Utils.ItemPagesUtils;
 import ink.neokoni.lightTag.Utils.TagUtils;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 
@@ -23,6 +19,7 @@ public class SetTagGUI {
     private Player player;
     private ChestMenu menu;
     private int cur_page;
+    private int maxPage = 0;
     public SetTagGUI(Player player, int page) {
         this.player = player;
         menu = new Template(Templates.getTemplates(), "set").get();
@@ -30,26 +27,19 @@ public class SetTagGUI {
 
         YamlConfiguration data = PlayerDatas.getPlayerData();
         List<Integer> owns = data.getIntegerList(this.player.getUniqueId()+".owns");
+        if (maxPage==0)maxPage=ItemPagesUtils.getMaxPage(owns, menu.getFreeSlot().size());
+        if (page>maxPage)cur_page=maxPage;
+        if (page<1)cur_page=1;
 
-        for (int i : owns) {
-            ItemStack tagItem = new ItemStack(Material.NAME_TAG);
-            Component tagView = TagUtils.getViewById(i);
-            String type = Tags.getTags().getString(i+".type");
-            boolean isAnimation = (type != null && type.equals("ANIMATION"));
+        if (!owns.isEmpty()) {
+            List<Integer> displayId = ItemPagesUtils.getThisPageIds(owns, menu.getFreeSlot().size(), cur_page);
 
-            ItemMeta meta = tagItem.getItemMeta();
-            meta.displayName(tagView);
-            if (isAnimation)meta.setEnchantmentGlintOverride(true);
-            meta.lore(List.of(
-                    MiniMessage.miniMessage().deserialize("称号: ").append(tagView),
-                    MiniMessage.miniMessage().deserialize(isAnimation?"<yellow>动态称号":"<red>静态称号"),
-                    MiniMessage.miniMessage().deserialize("ID: "+i),
-                    MiniMessage.miniMessage().deserialize(""),
-                    MiniMessage.miniMessage().deserialize("点击使用")
-            ));
-            tagItem.setItemMeta(meta);
+            for (int i : displayId) {
+                ItemStack tagItem = TagUtils.getTagItem("set", i);
 
-            menu.setItemActions(tagItem, List.of("SetTag:"+i));
+                menu.put(tagItem);
+                menu.setItemActions(tagItem, List.of("SetTag:"+i));
+            }
         }
 
         menu.setTitle("<yellow>设置称号");
@@ -77,11 +67,11 @@ public class SetTagGUI {
     }
 
     public void next() {
-        new SetTagGUI(player, cur_page+1);
+        new SetTagGUI(player, cur_page+1).open();
     }
 
     public void previous() {
-        new SetTagGUI(player, cur_page-1);
+        new SetTagGUI(player, cur_page-1).open();
     }
 
 }

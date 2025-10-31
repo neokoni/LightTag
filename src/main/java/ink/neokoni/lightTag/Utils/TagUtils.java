@@ -1,10 +1,19 @@
 package ink.neokoni.lightTag.Utils;
 
+import ink.neokoni.lightTag.DataStorage.Languages;
 import ink.neokoni.lightTag.DataStorage.Tags;
+import ink.neokoni.lightTag.DataStorage.Templates;
 import ink.neokoni.lightTag.LightTag;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextReplacementConfig;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +90,45 @@ public class TagUtils {
                 return Component.text("null"); // i not want null pointer
             }
         }
+    }
+
+    public static ItemStack getTagItem(String template, int id) {
+        ConfigurationSection templateInfo = Templates.getTemplates().getConfigurationSection(template + ".tag");
+        ItemStack item;
+        if (templateInfo.isSet("item")) {
+            item = templateInfo.getItemStack("item");
+        } else {
+            item = new ItemStack(Material.valueOf(templateInfo.getString("material")));
+        }
+        if(item==null)item=new ItemStack(Material.NAME_TAG);
+
+        ItemMeta meta = item.getItemMeta();
+        List<String> lore_ori = templateInfo.getStringList("lore");
+        List<Component> lore = new ArrayList<>();
+
+        String animationTag = Languages.getLanguages().getString("tag.type-animation");
+        String staticTag = Languages.getLanguages().getString("tag.type-static");
+        if (animationTag==null)animationTag="null";
+        if (staticTag==null)staticTag="null";
+
+        Component tagType = getTypeById(id).equals("ANIMATION")?
+                MiniMessage.miniMessage().deserialize(animationTag) :
+                MiniMessage.miniMessage().deserialize(staticTag);
+        TextReplacementConfig replaceType = TextReplacementConfig.builder().matchLiteral("{TagType}").replacement(tagType).build();
+        TextReplacementConfig replaceView = TextReplacementConfig.builder().matchLiteral("{TagView}").replacement(getViewById(id)).build();
+        TextReplacementConfig replaceId = TextReplacementConfig.builder().matchLiteral("{TagId}").replacement(String.valueOf(id)).build();
+
+        lore_ori.forEach(s-> {
+            Component result = MiniMessage.miniMessage().deserialize(s);
+            lore.add(result.replaceText(replaceType).replaceText(replaceView).replaceText(replaceId));
+        });
+        Component name = MiniMessage.miniMessage().deserialize(templateInfo.getString("title"))
+                .replaceText(replaceType).replaceText(replaceId).replaceText(replaceView);
+        meta.displayName(name);
+        meta.lore(lore);
+        item.setItemMeta(meta);
+        item.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        return item;
     }
 }
 
