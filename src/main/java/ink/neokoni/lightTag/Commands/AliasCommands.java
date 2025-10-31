@@ -40,7 +40,7 @@ public class AliasCommands {
                                 return Command.SINGLE_SUCCESS;
                             }
 
-                            new SetTagGUI((Player) ctx.getSource().getSender()).open();
+                            new SetTagGUI((Player) ctx.getSource().getSender(), 1).open();
 
                             return Command.SINGLE_SUCCESS;
                         })
