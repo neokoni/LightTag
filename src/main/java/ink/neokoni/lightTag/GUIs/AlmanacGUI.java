@@ -106,10 +106,10 @@ public class AlmanacGUI {
     }
 
     public void next() {
-        new AlmanacGUI(player, cur_page+1);
+        new AlmanacGUI(player, cur_page+1).open();
     }
 
     public void previous() {
-        new AlmanacGUI(player, cur_page-1);
+        new AlmanacGUI(player, cur_page-1).open();
     }
 }

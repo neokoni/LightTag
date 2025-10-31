@@ -105,10 +105,10 @@ public class BuyTagGUI {
     }
 
     public void next() {
-        new BuyTagGUI(player, cur_page+1);
+        new BuyTagGUI(player, cur_page+1).open();
     }
 
     public void previous() {
-        new BuyTagGUI(player, cur_page-1);
+        new BuyTagGUI(player, cur_page-1).open();
     }
 }
