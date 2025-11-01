@@ -20,10 +20,12 @@ public class SetTag {
         }
 
         YamlConfiguration playerData = PlayerDatas.getPlayerData();
-        if (!playerData.getIntegerList(player.getUniqueId()+".owns").contains(id)) {
+        if (!playerData.getIntegerList(player.getUniqueId()+".owns").contains(id)&&id>=0) {
             player.sendMessage(TextUtils.getFormatedLang("tag.not-have"));
             return;
         }
+
+        if (id < -1)id=-1;
 
         playerData.set(player.getUniqueId()+".using", id);
         PAPIsCore.clear(player);
