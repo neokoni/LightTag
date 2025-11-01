@@ -9,12 +9,16 @@ import org.bukkit.entity.Player;
 
 public class ClearTag {
     public ClearTag(CommandSender sender) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             sender.sendMessage(TextUtils.getFormatedLang("system.player-only"));
             return;
         }
 
-        Player player = (Player) sender;
+        if (player.hasPermission("lighttag.clear")) {
+            player.sendMessage(TextUtils.getFormatedLang("system.no-perms"));
+            return;
+        }
+
         YamlConfiguration data = PlayerDatas.getPlayerData();
         data.set(player.getUniqueId()+".using", -1);
         PlayerDatas.savePlayerData(data);

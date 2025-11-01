@@ -35,6 +35,7 @@ public class AliasCommands {
                             return Command.SINGLE_SUCCESS;
                         }))
                 .then(Commands.literal("set")
+                        .requires(ctx->ctx.getSender().hasPermission("lighttag.set"))
                         .executes(ctx -> {
                             if (!(ctx.getSource().getSender() instanceof Player)) {
                                 return Command.SINGLE_SUCCESS;
@@ -51,11 +52,13 @@ public class AliasCommands {
                                 return Command.SINGLE_SUCCESS;
                         })))
                 .then(Commands.literal("list")
+                        .requires(ctx->ctx.getSender().hasPermission("lighttag.list"))
                         .executes(ctx -> {
                             new SendPlayerTagList(ctx.getSource().getSender());
                             return Command.SINGLE_SUCCESS;
                         }))
                 .then(Commands.literal("add")
+                        .requires(ctx->ctx.getSender().hasPermission("lighttag.add"))
                         .then(Commands.literal("STATIC")
                                 .then(Commands.argument("Content", StringArgumentType.string())
                                         .executes(ctx -> {
@@ -75,11 +78,13 @@ public class AliasCommands {
                                                             return Command.SINGLE_SUCCESS;
                                                         }))))))
                 .then(Commands.literal("clear")
+                    .requires(ctx->ctx.getSender().hasPermission("lighttag.list"))
                     .executes(ctx -> {
                         new ClearTag(ctx.getSource().getSender());
                         return Command.SINGLE_SUCCESS;
                     }))
                 .then(Commands.literal("give")
+                        .requires(ctx->ctx.getSender().hasPermission("lighttag.give"))
                         .then(Commands.argument("Player(s)", ArgumentTypes.players())
                                 .then(Commands.argument("id", IntegerArgumentType.integer(0))
                                         .executes(ctx -> {
@@ -90,11 +95,13 @@ public class AliasCommands {
                                             return Command.SINGLE_SUCCESS;
                                         }))))
                 .then(Commands.literal("almanac")
+                        .requires(ctx->ctx.getSender().hasPermission("lighttag.almanac"))
                         .executes(ctx -> {
                             new AlmanacOfTags(ctx.getSource().getSender());
                             return Command.SINGLE_SUCCESS;
                         }))
                 .then(Commands.literal("save")
+                        .requires(ctx->ctx.getSender().hasPermission("lighttag.save"))
                         .executes(ctx -> {
                             PlayerDatas.writeToFile();
                             Tags.writeToFile();
@@ -102,12 +109,14 @@ public class AliasCommands {
                             return Command.SINGLE_SUCCESS;
                         }))
                 .then(Commands.literal("help")
+                        .requires(ctx->ctx.getSender().hasPermission("lighttag.help"))
                         .executes(ctx -> {
                             new PrintHelp(ctx.getSource().getSender());
                             return Command.SINGLE_SUCCESS;
                         })
                 )
                 .then(Commands.literal("debug")
+                        .requires(ctx->ctx.getSender().hasPermission("lighttag.debug"))
                         .then(Commands.literal("save_deserialized_item_to_file")
                                 .executes(ctx -> {
                                     new DeserializeItemToFile(ctx.getSource().getSender());

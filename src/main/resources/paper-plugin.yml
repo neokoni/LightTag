@@ -14,3 +14,25 @@ dependencies:
       load: BEFORE
       required: true
       join-classpath: true
+
+permissions:
+  lighttag.*:
+    description: "LightTag Full permission"
+    default: op
+    children:
+      - lighttag.reload
+      - lighttag.add
+      - lighttag.give
+      - lighttag.save
+      - lighttag.set
+      - lighttag.list
+      - lighttag.clear
+      - lighttag.help
+      - lighttag.debug
+  lighttag.player:
+    description: "Our recommend permissions for common players"
+    children:
+      - lighttag.set
+      - lighttag.list
+      - lighttag.clear
+      - lighttag.help

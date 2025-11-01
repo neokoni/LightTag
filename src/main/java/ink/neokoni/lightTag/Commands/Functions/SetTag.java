@@ -9,12 +9,15 @@ import org.bukkit.entity.Player;
 
 public class SetTag {
     public SetTag(CommandSender sender, int id) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             sender.sendMessage(TextUtils.getFormatedLang("system.player-only"));
             return;
         }
 
-        Player player = (Player) sender;
+        if (player.hasPermission("lighttag.set")) {
+            player.sendMessage(TextUtils.getFormatedLang("system.no-perms"));
+            return;
+        }
 
         YamlConfiguration playerData = PlayerDatas.getPlayerData();
         if (!playerData.getIntegerList(player.getUniqueId()+".owns").contains(id)) {
