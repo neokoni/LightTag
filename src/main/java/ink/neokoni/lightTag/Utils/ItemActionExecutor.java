@@ -28,8 +28,14 @@ public class ItemActionExecutor {
         }
 
         for (String action : actions) {
-            String type = action.split(":")[0];
-            String value = action.split(":")[1];
+            String[] res = action.split(":");
+            String type,value;
+            type=res[0];
+            if (res.length<2) {
+                value="";
+            } else {
+                value=res[1];
+            }
             switch (type) {
                 case "SetTag": {
                     new SetTag(player, Integer.valueOf(value));
