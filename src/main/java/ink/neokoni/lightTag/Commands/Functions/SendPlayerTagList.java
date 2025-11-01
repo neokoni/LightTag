@@ -1,10 +1,12 @@
 package ink.neokoni.lightTag.Commands.Functions;
 
+import ink.neokoni.lightTag.DataStorage.Languages;
 import ink.neokoni.lightTag.DataStorage.PlayerDatas;
 import ink.neokoni.lightTag.DataStorage.Tags;
 import ink.neokoni.lightTag.Utils.TagUtils;
 import ink.neokoni.lightTag.Utils.TextUtils;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -42,18 +44,26 @@ public class SendPlayerTagList {
             Component tagView = TagUtils.getViewById(i);
             String type = Tags.getTags().getString(i+".type");
             boolean isAnimation = (type != null && type.equals("ANIMATION"));
+            Component tagType = isAnimation?MiniMessage.miniMessage().deserialize(
+                    Languages.getLanguages().getString("tag.type-animation")) :
+                    MiniMessage.miniMessage().deserialize(Languages.getLanguages().getString("tag.type-static"));
 
-            Component hover = MiniMessage.miniMessage().deserialize("称号: ").append(tagView).appendNewline()
-                    .append(MiniMessage.miniMessage().deserialize(isAnimation?"<yellow>动态称号":"<red>静态称号").appendNewline())
-                    .append(MiniMessage.miniMessage().deserialize("ID: "+i).appendNewline())
-                    .append(MiniMessage.miniMessage().deserialize("").appendNewline())
-                    .append(MiniMessage.miniMessage().deserialize("点击使用"));
+            TextReplacementConfig replaceId = TextReplacementConfig.builder().matchLiteral("{TagId}").replacement(String.valueOf(i)).build();
+            TextReplacementConfig replaceType = TextReplacementConfig.builder().matchLiteral("{TagType}").replacement(tagType).build();
+            TextReplacementConfig replaceView = TextReplacementConfig.builder().matchLiteral("{TagView}").replacement(tagView).build();
 
-            player.sendMessage(Component.text("- ID:"+i+" ").append(
-                    TagUtils.getViewById(i)
+            StringBuilder hover_ori = new StringBuilder();
+            for (String s : Languages.getLanguages().getStringList("list.hover")) {
+                hover_ori.append(s);
+            }
+
+            Component hover = MiniMessage.miniMessage().deserialize(hover_ori.toString())
+                    .replaceText(replaceId).replaceText(replaceType).replaceText(replaceView);
+
+            player.sendMessage(MiniMessage.miniMessage().deserialize(Languages.getLanguages().getString("list.format"))
+                            .replaceText(replaceId).replaceText(replaceType).replaceText(replaceView)
                             .hoverEvent(HoverEvent.showText(hover))
-                            .clickEvent(ClickEvent.runCommand("/lighttag:ltag set "+i))
-            ));
+                            .clickEvent(ClickEvent.runCommand("/lighttag:ltag set "+i)));
         }
     }
 }

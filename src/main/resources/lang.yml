@@ -15,6 +15,13 @@ tag:
 list:
   head: "<color:#ffdbab>你目前拥有以下{total}个称号"
   nothing: "<color:#ffdbab>咱似乎还没有任何称号... :("
+  format: "- ID:{TagId} {TagView}"
+  hover:
+    - "<color:#ffdbab>称号: {TagView}<br>"
+    - "{TagType}<br>"
+    - "ID: {TagId}<br>"
+    - "<br>"
+    - "点击使用"
 
 give:
   successes: "<color:#ffdbab>已给予玩家{player}称号{tag}"
@@ -24,6 +31,11 @@ give:
 
 almanac:
   overview: "<color:#ffdbab>当前服务器共有以下{total}个称号"
+  format: "- ID:{TagId} {TagView}"
+  hover:
+    - "<color:#ffdbab>称号: {TagView}<br>"
+    - "{TagType}<br>"
+    - "ID: {TagId}"
 
 help:
   - "<color:#ffdbab>/ltag add 添加称号"
