@@ -1,13 +1,13 @@
 package ink.neokoni.lightTag.GUIs;
 
 import ink.neokoni.lightTag.DataStorage.Caches;
-import ink.neokoni.lightTag.DataStorage.Templates;
 import ink.neokoni.lightTag.DataStorage.PlayerDatas;
 import ink.neokoni.lightTag.GUIs.Base.ChestMenu;
 import ink.neokoni.lightTag.GUIs.Base.Template;
 import ink.neokoni.lightTag.Utils.ItemActionExecutor;
 import ink.neokoni.lightTag.Utils.ItemPagesUtils;
 import ink.neokoni.lightTag.Utils.TagUtils;
+import it.unimi.dsi.fastutil.Pair;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -22,7 +22,7 @@ public class SetTagGUI {
     private int maxPage = 0;
     public SetTagGUI(Player player, int page) {
         this.player = player;
-        menu = new Template(Templates.getTemplates(), "set").get();
+        menu = new Template("set", this.player).get();
         cur_page = page;
 
         YamlConfiguration data = PlayerDatas.getPlayerData();
@@ -35,14 +35,12 @@ public class SetTagGUI {
             List<Integer> displayId = ItemPagesUtils.getThisPageIds(owns, menu.getFreeSlot().size(), cur_page);
 
             for (int i : displayId) {
-                ItemStack tagItem = TagUtils.getTagItem("set", i);
+                Pair<ItemStack, List<String>> tagItem = TagUtils.getTagItem("set", i);
 
-                menu.put(tagItem);
-                menu.setItemActions(tagItem, List.of("SetTag:"+i));
+                menu.put(tagItem.first());
+                menu.setItemActions(tagItem.first(), tagItem.second());
             }
         }
-
-        menu.setTitle("<yellow>设置称号");
     }
 
     public void open() {
@@ -67,10 +65,16 @@ public class SetTagGUI {
     }
 
     public void next() {
+        if (cur_page+1>maxPage)return;
+        if (cur_page+1<1)return;
+
         new SetTagGUI(player, cur_page+1).open();
     }
 
     public void previous() {
+        if (cur_page-1>maxPage)return;
+        if (cur_page-1<1)return;
+
         new SetTagGUI(player, cur_page-1).open();
     }
 

@@ -1,13 +1,18 @@
 package ink.neokoni.lightTag.GUIs.Base;
 
 import ink.neokoni.lightTag.DataStorage.PlayerDatas;
+import ink.neokoni.lightTag.DataStorage.Templates;
+import ink.neokoni.lightTag.Utils.TagUtils;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.*;
 
@@ -18,7 +23,11 @@ public class Template {
     private Map<String, ItemStack> items = new HashMap<>();
     private Map<ItemStack, List<String>> itemActions = new HashMap<>();
     private ChestMenu menu;
-    public Template(YamlConfiguration templates, String template) {
+
+    private Component usingTagView;
+    public Template(String template, Player player) {
+        YamlConfiguration templates = Templates.getTemplates();
+        YamlConfiguration playerDatas = PlayerDatas.getPlayerData();
         if (!templates.getKeys(false).contains(template)) { // this gui not defined
             return;
         }
@@ -26,6 +35,15 @@ public class Template {
         ui = templates.getStringList(template+".ui");
         row = ui.size();
         menu = new ChestMenu(row);
+
+        if (playerDatas.getInt(player.getUniqueId()+".using")>=0) {
+            usingTagView = TagUtils.getViewById(playerDatas.getInt(player.getUniqueId()+".using"));
+        } else {
+            usingTagView = Component.text("");
+        }
+
+        TextReplacementConfig replaceUsingTagView = TextReplacementConfig
+                .builder().matchLiteral("{PlayerUsingTagView}").replacement(usingTagView).build();
 
         Set<String> names = templates.getConfigurationSection(template+".items").getKeys(false);
         for (String s:  names) {
@@ -47,16 +65,19 @@ public class Template {
             ItemMeta meta = item.getItemMeta();
             List<Component> lore = new ArrayList<>();
             lore_ori.forEach(l -> {
-                lore.add(MiniMessage.miniMessage().deserialize(s));
+                lore.add(MiniMessage.miniMessage().deserialize(
+                        l.replace("{PlayerTagTotal}", String.valueOf(TagUtils.getPlayerTotal(player))))
+                        .replaceText(replaceUsingTagView));
             });
             meta.lore(lore);
             meta.displayName(MiniMessage.miniMessage().deserialize(name));
             item.setItemMeta(meta);
 
-
-            YamlConfiguration playerData = PlayerDatas.getPlayerData();
-            playerData.set("item."+s, item);
-            PlayerDatas.savePlayerData(playerData);
+            if (templates.getBoolean(template+".items."+s+".head")) {
+                SkullMeta skullMeta = (SkullMeta) item.getItemMeta();
+                skullMeta.setPlayerProfile(player.getPlayerProfile());
+                item.setItemMeta(skullMeta);
+            }
 
             flags.forEach(f -> {
                 item.addItemFlags(ItemFlag.valueOf(f));
@@ -64,7 +85,6 @@ public class Template {
             items.put(s, item);
             itemActions.put(item, actions);
         }
-        PlayerDatas.writeToFile();
 
         for (int i = 0; i < ui.size(); i++) {
             String s_row = ui.get(i);

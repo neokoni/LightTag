@@ -1,9 +1,11 @@
 package ink.neokoni.lightTag.Utils;
 
 import ink.neokoni.lightTag.DataStorage.Languages;
+import ink.neokoni.lightTag.DataStorage.PlayerDatas;
 import ink.neokoni.lightTag.DataStorage.Tags;
 import ink.neokoni.lightTag.DataStorage.Templates;
 import ink.neokoni.lightTag.LightTag;
+import it.unimi.dsi.fastutil.Pair;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -11,6 +13,7 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -78,9 +81,6 @@ public class TagUtils {
                 } catch (NoSuchElementException e) {
                     LightTag.getInstance().getLogger().warning("Tag id: "+id+" not have type and not animation");
                 }
-//                if (banner==null) {
-//                    banner = Tags.getTags().getStringList(id+".content").getFirst();
-//                }
                 if (banner==null) {
                     banner = Tags.getTags().getString(id+".content");
                 }
@@ -92,9 +92,11 @@ public class TagUtils {
         }
     }
 
-    public static ItemStack getTagItem(String template, int id) {
+    public static Pair<ItemStack, List<String>> getTagItem(String template, int id) {
         ConfigurationSection templateInfo = Templates.getTemplates().getConfigurationSection(template + ".tag");
         ItemStack item;
+        List<String> actions = new ArrayList<>();
+
         if (templateInfo.isSet("item")) {
             item = templateInfo.getItemStack("item");
         } else {
@@ -126,9 +128,21 @@ public class TagUtils {
                 .replaceText(replaceType).replaceText(replaceId).replaceText(replaceView);
         meta.displayName(name);
         meta.lore(lore);
+        if (getTypeById(id).equals("ANIMATION"))meta.setEnchantmentGlintOverride(true);
         item.setItemMeta(meta);
         item.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        return item;
+
+        if (templateInfo.isSet("actions")) {
+            templateInfo.getStringList("actions").forEach(s -> {
+                actions.add(s.replace("{TagId}", String.valueOf(id)));
+            });
+        }
+
+        return Pair.of(item, actions);
+    }
+
+    public static int getPlayerTotal(Player player) {
+        return PlayerDatas.getPlayerData().getIntegerList(player.getUniqueId()+".owns").stream().filter(i->i> -1).toList().size();
     }
 }
 

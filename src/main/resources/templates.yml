@@ -1,6 +1,49 @@
-main: ""
+main:
+  title: "<yellow>LightTag面板"
+  ui:
+    - "ooooooooo"
+    - "osoboaopo"
+    - "ooooooooc"
+  items:
+    s:
+      material: NAME_TAG
+      amount: 1
+      title: "<!i><yellow>设置称号"
+      actions:
+        - "OpenPage:SetTagGUI"
+    b:
+      material: EMERALD
+      amount: 1
+      title: "<!i><yellow>购买称号"
+      actions:
+        - "OpenPage:BuyTagGUI"
+    a:
+      material: WRITABLE_BOOK
+      amount: 1
+      title: "<!i><yellow>称号图鉴"
+      actions:
+        - "OpenPage:AlmanacGUI"
+    p:
+      material: PLAYER_HEAD
+      amount: 1
+      title: "<!i>个人信息"
+      head: true
+      lore:
+        - "<!i><white>已拥有{PlayerTagTotal}个称号"
+        - "<!i><white>当前正在使用: {PlayerUsingTagView}"
+    c:
+      material: BARRIER
+      amount: 1
+      title: "<!i><red>禁用称号"
+      actions:
+        - "ClearTag: "
+        - "Close:"
+    o:
+      material: WHITE_STAINED_GLASS_PANE
+      amount: 1
+      title: ""
 set:
-  title: "<yellow>LightTag"
+  title: "<yellow>称号设置"
   ui:
     - "ooooooooo"
     - "o-------o"
@@ -11,13 +54,13 @@ set:
   tag:
     material: NAME_TAG
     amount: 1
-    title: "{TagView}"
+    title: "<!i><white>{TagView}"
     lore:
-      - "称号: {TagView}"
-      - "{TagType}"
-      - "ID: {TagId}"
+      - "<!i><white>称号: {TagView}"
+      - "<!i><white>{TagType}"
+      - "<!i><white>ID: {TagId}"
       - ""
-      - "点击使用"
+      - "<!i><white>点击使用"
     actions:
       - "SetTag:{TagId}"
       - "Close:"
@@ -29,29 +72,164 @@ set:
     a:
       material: "ARROW"
       amount: 1
-      title: "返回上一页"
+      title: "<!i><white>返回上一页"
       actions:
         - "OpenPage:MainGUI"
-        - "Close:"
     b:
       material: "TIPPED_ARROW"
       amount: 1
-      title: "上一页"
+      title: "<!i><white>上一页"
       flags:
         - HIDE_ADDITIONAL_TOOLTIP
       potion: "SLOW_FALLING"
       actions:
         - "Pages:Previous"
-        - "Close:"
+      item:
+        ==: org.bukkit.inventory.ItemStack
+        DataVersion: 4440
+        id: minecraft:tipped_arrow
+        count: 1
+        components:
+          minecraft:potion_contents: '{potion:"minecraft:slow_falling"}'
+        schema_version: 1
     c:
       material: "TIPPED_ARROW"
       amount: 1
-      title: "下一页"
+      title: "<!i><white>下一页"
       flags:
         - HIDE_ADDITIONAL_TOOLTIP
       potion: "WIND_CHARGED"
       actions:
         - "Pages:Next"
-        - "Close:"
-buy: ""
-almanac: ""
+      item:
+        ==: org.bukkit.inventory.ItemStack
+        DataVersion: 4440
+        id: minecraft:tipped_arrow
+        count: 1
+        components:
+          minecraft:potion_contents: '{potion:"minecraft:wind_charged"}'
+        schema_version: 1
+buy:
+  title: "<yellow>购买称号"
+  ui:
+    - "ooooooooo"
+    - "o-------o"
+    - "o-------o"
+    - "o-------o"
+    - "o-------o"
+    - "aoobocooo"
+  tag:
+    material: NAME_TAG
+    amount: 1
+    title: "<!i><white>{TagView}"
+    lore:
+      - "<!i><white>称号: {TagView}"
+      - "<!i><white>{TagType}"
+      - "<!i><white>ID: {TagId}"
+  items:
+    o:
+      material: "WHITE_STAINED_GLASS_PANE"
+      amount: 1
+      title: ""
+    a:
+      material: "ARROW"
+      amount: 1
+      title: "<!i><white>返回上一页"
+      actions:
+        - "OpenPage:MainGUI"
+    b:
+      material: "TIPPED_ARROW"
+      amount: 1
+      title: "<!i><white>上一页"
+      flags:
+        - HIDE_ADDITIONAL_TOOLTIP
+      potion: "SLOW_FALLING"
+      actions:
+        - "Pages:Previous"
+      item:
+        ==: org.bukkit.inventory.ItemStack
+        DataVersion: 4440
+        id: minecraft:tipped_arrow
+        count: 1
+        components:
+          minecraft:potion_contents: '{potion:"minecraft:slow_falling"}'
+        schema_version: 1
+    c:
+      material: "TIPPED_ARROW"
+      amount: 1
+      title: "<!i><white>下一页"
+      flags:
+        - HIDE_ADDITIONAL_TOOLTIP
+      potion: "WIND_CHARGED"
+      actions:
+        - "Pages:Next"
+      item:
+        ==: org.bukkit.inventory.ItemStack
+        DataVersion: 4440
+        id: minecraft:tipped_arrow
+        count: 1
+        components:
+          minecraft:potion_contents: '{potion:"minecraft:wind_charged"}'
+        schema_version: 1
+almanac:
+  title: "<yellow>称号图鉴"
+  ui:
+    - "ooooooooo"
+    - "o-------o"
+    - "o-------o"
+    - "o-------o"
+    - "o-------o"
+    - "aoobocooo"
+  tag:
+    material: NAME_TAG
+    amount: 1
+    title: "<!i><white>{TagView}"
+    lore:
+      - "<!i><white>称号: {TagView}"
+      - "<!i><white>{TagType}"
+      - "<!i><white>ID: {TagId}"
+  items:
+    o:
+      material: "WHITE_STAINED_GLASS_PANE"
+      amount: 1
+      title: ""
+    a:
+      material: "ARROW"
+      amount: 1
+      title: "<!i><white>返回上一页"
+      actions:
+        - "OpenPage:MainGUI"
+    b:
+      material: "TIPPED_ARROW"
+      amount: 1
+      title: "<!i><white>上一页"
+      flags:
+        - HIDE_ADDITIONAL_TOOLTIP
+      potion: "SLOW_FALLING"
+      actions:
+        - "Pages:Previous"
+      item:
+        ==: org.bukkit.inventory.ItemStack
+        DataVersion: 4440
+        id: minecraft:tipped_arrow
+        count: 1
+        components:
+          minecraft:potion_contents: '{potion:"minecraft:slow_falling"}'
+        schema_version: 1
+    c:
+      material: "TIPPED_ARROW"
+      amount: 1
+      title: "<!i><white>下一页"
+      flags:
+        - HIDE_ADDITIONAL_TOOLTIP
+      potion: "WIND_CHARGED"
+      actions:
+        - "Pages:Next"
+      item:
+        ==: org.bukkit.inventory.ItemStack
+        DataVersion: 4440
+        id: minecraft:tipped_arrow
+        count: 1
+        components:
+          minecraft:potion_contents: '{potion:"minecraft:wind_charged"}'
+        schema_version: 1
