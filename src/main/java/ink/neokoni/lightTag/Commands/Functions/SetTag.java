@@ -14,7 +14,7 @@ public class SetTag {
             return;
         }
 
-        if (player.hasPermission("lighttag.set")) {
+        if (!player.hasPermission("lighttag.set")) {
             player.sendMessage(TextUtils.getFormatedLang("system.no-perms"));
             return;
         }

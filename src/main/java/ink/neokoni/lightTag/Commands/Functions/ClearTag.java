@@ -14,7 +14,7 @@ public class ClearTag {
             return;
         }
 
-        if (player.hasPermission("lighttag.clear")) {
+        if (!player.hasPermission("lighttag.clear")) {
             player.sendMessage(TextUtils.getFormatedLang("system.no-perms"));
             return;
         }
