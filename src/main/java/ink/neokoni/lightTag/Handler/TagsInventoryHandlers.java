@@ -34,9 +34,17 @@ public class TagsInventoryHandlers implements Listener {
 
     @EventHandler
     private void onInventoryClose(InventoryCloseEvent e) {
-        Inventory closed = e.getInventory();
+        Inventory inv = e.getInventory();
 
-        Caches.setTagGUI.remove(closed);
+        if (Caches.almanacGUI.containsKey(inv)) {
+            Caches.almanacGUI.remove(inv);
+        } else if (Caches.setTagGUI.containsKey(inv)) {
+            Caches.setTagGUI.remove(inv);
+        } else if (Caches.mainGUI.containsKey(inv)) {
+            Caches.mainGUI.remove(inv);
+        } else if (Caches.buyTagGUI.containsKey(inv)) {
+            Caches.buyTagGUI.remove(inv);
+        }
     }
 
     private boolean isOurInv(Inventory inv) {
