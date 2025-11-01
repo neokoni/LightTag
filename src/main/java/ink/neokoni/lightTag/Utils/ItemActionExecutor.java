@@ -1,5 +1,6 @@
 package ink.neokoni.lightTag.Utils;
 
+import ink.neokoni.lightTag.Commands.Functions.ClearTag;
 import ink.neokoni.lightTag.Commands.Functions.SetTag;
 import ink.neokoni.lightTag.DataStorage.Caches;
 import ink.neokoni.lightTag.GUIs.AlmanacGUI;
@@ -8,11 +9,12 @@ import ink.neokoni.lightTag.GUIs.BuyTagGUI;
 import ink.neokoni.lightTag.GUIs.MainGUI;
 import ink.neokoni.lightTag.GUIs.SetTagGUI;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 
 import java.util.List;
 
 public class ItemActionExecutor {
-    public static void run(ChestMenu menu, List<String> actions, Player player) {
+    public static void run(ChestMenu menu, Inventory inv, List<String> actions, Player player) {
         /* Available actions:
         *  SetTag:<id> Set player's tag by tagId
         *  OpenPage:<guiName> Open GUI for player
@@ -31,28 +33,28 @@ public class ItemActionExecutor {
             switch (type) {
                 case "SetTag": {
                     new SetTag(player, Integer.valueOf(value));
-                    return;
+                    continue;
                 }
                 case "OpenPage": {
                     switch (value) {
                         case "AlmanacGUI": {
                             new AlmanacGUI(player, 1).open();
-                            return;
+                            continue;
                         }
                         case "BuyTagGUI": {
                             new BuyTagGUI(player, 1).open();
-                            return;
+                            continue;
                         }
                         case "MainGUI": {
                             new MainGUI(player).open();
-                            return;
+                            continue;
                         }
                         case "SetTagGUI": {
                             new SetTagGUI(player, 1).open();
-                            return;
+                            continue;
                         }
                     }
-                    return;
+                    continue;
                 }
                 case "Pages": {
                     AlmanacGUI almanacGUI = Caches.almanacGUI.get(menu.getInv());
@@ -62,31 +64,41 @@ public class ItemActionExecutor {
                     if (almanacGUI!=null) {
                         if (value.equals("Next")) {
                             almanacGUI.next();
+                            continue;
                         } else if (value.equals("Previous")) {
                             almanacGUI.previous();
+                            continue;
                         }
                     } else if(buyTagGUI!=null) {
                         if (value.equals("Next")) {
                             buyTagGUI.next();
+                            continue;
                         } else if (value.equals("Previous")) {
                             buyTagGUI.previous();
+                            continue;
                         }
                     } else if(setTagGUI!=null) {
                         if (value.equals("Next")) {
                             setTagGUI.next();
+                            continue;
                         } else if (value.equals("Previous")) {
                             setTagGUI.previous();
+                            continue;
                         }
                     }
-                    return;
+                    continue;
                 }
                 case "Close": {
                     player.closeInventory();
-                    return;
+                    continue;
                 }
                 case "Command": {
                     player.performCommand(value);
-                    return;
+                    continue;
+                }
+                case "ClearTag": {
+                    new ClearTag(player);
+                    continue;
                 }
             }
         }
