@@ -45,7 +45,7 @@ public class AliasCommands {
                             return Command.SINGLE_SUCCESS;
                         })
 
-                        .then(Commands.argument("id", IntegerArgumentType.integer(1))
+                        .then(Commands.argument("id", IntegerArgumentType.integer(0))
                             .executes(ctx -> {
                                 new SetTag(ctx.getSource().getSender(), ctx.getArgument("id", Integer.class));
                                 return Command.SINGLE_SUCCESS;
