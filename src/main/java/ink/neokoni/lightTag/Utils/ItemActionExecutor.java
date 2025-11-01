@@ -9,18 +9,18 @@ import ink.neokoni.lightTag.GUIs.BuyTagGUI;
 import ink.neokoni.lightTag.GUIs.MainGUI;
 import ink.neokoni.lightTag.GUIs.SetTagGUI;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 
 import java.util.List;
 
 public class ItemActionExecutor {
-    public static void run(ChestMenu menu, Inventory inv, List<String> actions, Player player) {
+    public static void run(ChestMenu menu, List<String> actions, Player player) {
         /* Available actions:
         *  SetTag:<id> Set player's tag by tagId
         *  OpenPage:<guiName> Open GUI for player
         *  Pages:<pageNum> Open target page in GUI
         *  Close:<anyThing> Close player's inventory GUI
         *  Command:<command> Run command as player
+        *  ClearTag:<anyThing> Clear player's using tag, like /ltag clear
         * */
 
         if (actions==null) {
