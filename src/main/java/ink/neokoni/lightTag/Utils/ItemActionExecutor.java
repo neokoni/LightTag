@@ -1,5 +1,6 @@
 package ink.neokoni.lightTag.Utils;
 
+import ink.neokoni.lightTag.Commands.Functions.BuyTag;
 import ink.neokoni.lightTag.Commands.Functions.ClearTag;
 import ink.neokoni.lightTag.Commands.Functions.SetTag;
 import ink.neokoni.lightTag.DataStorage.Caches;
@@ -21,6 +22,7 @@ public class ItemActionExecutor {
         *  Close:<anyThing> Close player's inventory GUI
         *  Command:<command> Run command as player
         *  ClearTag:<anyThing> Clear player's using tag, like /ltag clear
+        *  BuyTag:<id> Buy a tag as player
         * */
 
         if (actions==null) {
@@ -104,6 +106,11 @@ public class ItemActionExecutor {
                 }
                 case "ClearTag": {
                     new ClearTag(player);
+                    continue;
+                }
+                case "BuyTag": {
+                    int i = Integer.valueOf(value);
+                    new BuyTag(player, i);
                     continue;
                 }
             }

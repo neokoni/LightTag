@@ -126,7 +126,7 @@ public class AliasCommands {
                         .requires(ctx -> ctx.getSender().hasPermission("lighttag.buy"))
                         .then(Commands.argument("id", IntegerArgumentType.integer(0))
                                 .executes(ctx -> {
-                                    if (ctx.getSource().getSender() instanceof Player) {
+                                    if (!(ctx.getSource().getSender() instanceof Player)) {
                                         ctx.getSource().getSender().sendMessage(TextUtils.getFormatedLang("system.player-only"));
                                         return Command.SINGLE_SUCCESS;
                                     }

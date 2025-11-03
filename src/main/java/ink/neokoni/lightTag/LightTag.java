@@ -7,6 +7,7 @@ import ink.neokoni.lightTag.Handler.PlayerQuitHandler;
 import ink.neokoni.lightTag.Handler.TagsInventoryHandlers;
 import ink.neokoni.lightTag.PAPIs.PAPIsCore;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -57,10 +58,12 @@ public final class LightTag extends JavaPlugin {
         }
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
         if (rsp == null) {
+            Bukkit.getLogger().warning("rsp null");
             return;
         }
         econ = rsp.getProvider();
-        if (econ!=null)hasEco=true;
+        if(econ==null)Bukkit.getLogger().warning("econ null");
+        if (econ!=null);hasEco=true;
     }
 
     public static Economy getEcon() {

@@ -6,6 +6,7 @@ import ink.neokoni.lightTag.Utils.TagUtils;
 import ink.neokoni.lightTag.Utils.TextUtils;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -34,16 +35,17 @@ public class BuyTag {
         EconomyResponse response = eco.withdrawPlayer(player, price);
         if (response.equals(EconomyResponse.ResponseType.NOT_IMPLEMENTED)) { // vault not be manage?
             player.sendMessage(TextUtils.getFormatedLang("buy.no-implement-error"));
-        } else if (response.equals(EconomyResponse.ResponseType.FAILURE)) {
-            player.sendMessage(TextUtils.getFormatedLang("buy.unknow-error"));
-        } else if (response.equals(EconomyResponse.ResponseType.SUCCESS)) {
-            YamlConfiguration playerData = PlayerDatas.getPlayerData();
-            List<Integer> owns = playerData.getIntegerList(player.getUniqueId()+"owns");
-            owns.add(id);
-            playerData.set(player.getUniqueId()+".owns", owns);
-            PlayerDatas.savePlayerData(playerData);
-            player.sendMessage(TextUtils.getFormatedLang("buy.success"));
+            return;
         }
-
+        if (response.equals(EconomyResponse.ResponseType.FAILURE)) {
+            player.sendMessage(TextUtils.getFormatedLang("buy.unknow-error"));
+            return;
+        }
+        YamlConfiguration playerData = PlayerDatas.getPlayerData();
+        List<Integer> owns = playerData.getIntegerList(player.getUniqueId()+".owns");
+        owns.add(id);
+        playerData.set(player.getUniqueId()+".owns", owns);
+        PlayerDatas.savePlayerData(playerData);
+        player.sendMessage(TextUtils.getFormatedLang("buy.success"));
     }
 }
