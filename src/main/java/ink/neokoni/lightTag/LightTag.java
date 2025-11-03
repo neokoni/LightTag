@@ -6,11 +6,16 @@ import ink.neokoni.lightTag.Handler.PlayerJoinHandler;
 import ink.neokoni.lightTag.Handler.PlayerQuitHandler;
 import ink.neokoni.lightTag.Handler.TagsInventoryHandlers;
 import ink.neokoni.lightTag.PAPIs.PAPIsCore;
+import net.milkbowl.vault.economy.Economy;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class LightTag extends JavaPlugin {
     private static LightTag instance;
+    private static Economy econ = null;
     public static String version;
+
+    public static boolean hasEco = false;
 
     @Override
     public void onEnable() {
@@ -23,6 +28,8 @@ public final class LightTag extends JavaPlugin {
         Tags.loadTags();
         Templates.loadTemplates();
         PlayerDatas.loadPlayerData();
+
+        SetupVault(); // register vault for economy
 
         new Commands(); // register commands
 
@@ -42,5 +49,21 @@ public final class LightTag extends JavaPlugin {
 
     public static LightTag getInstance() {
         return instance;
+    }
+
+    private void SetupVault() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return;
+        }
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return;
+        }
+        econ = rsp.getProvider();
+        if (econ!=null)hasEco=true;
+    }
+
+    public static Economy getEcon() {
+        return econ;
     }
 }

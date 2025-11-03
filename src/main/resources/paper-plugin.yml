@@ -14,7 +14,10 @@ dependencies:
       load: BEFORE
       required: true
       join-classpath: true
-
+    Vault:
+      load: BEFORE
+      required: false
+      join-classpath: true
 permissions:
   lighttag.*:
     description: "LightTag Full permission"
@@ -29,6 +32,7 @@ permissions:
       - lighttag.clear
       - lighttag.help
       - lighttag.debug
+      - lighttag.buy
   lighttag.player:
     description: "Our recommend permissions for common players"
     children:
@@ -36,3 +40,4 @@ permissions:
       - lighttag.list
       - lighttag.clear
       - lighttag.help
+      - lighttag.buy

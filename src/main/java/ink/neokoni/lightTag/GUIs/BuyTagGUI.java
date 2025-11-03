@@ -43,6 +43,7 @@ public class BuyTagGUI {
 
             for (int i : displayId) {
                 if (!TagUtils.canBuy(i))continue;
+                if (TagUtils.isPlayerHave(player, i))continue;
 
                 Pair<ItemStack, List<String>> tagItem = TagUtils.getTagItem("buy", i);
 

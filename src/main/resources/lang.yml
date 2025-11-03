@@ -3,6 +3,7 @@ system:
   player-only: "<color:#ffdbab>仅玩家可运行此命令"
   saved: "<color:#ffdbab>已保存称号与玩家数据"
   no-perms: "<color:#ffdbab>暂无权限执行此操作"
+  no-vault: "<color:#ff8181>未安装vault, 暂无法购买称号"
 
 tag:
   not-have: "<color:#ffdbab>你还没有这个称号"
@@ -12,6 +13,13 @@ tag:
   type-animation: "<yellow>动态称号"
   type-static: "<red>静态称号"
 
+buy:
+  success: "<color:#ffdbab>已成功购买此称号"
+  no-money: "<color:#ff8181>您的余额不足，无法购买此称号"
+  no-sale: "<color:#ff8181>此称号无法购买"
+  have: "<color:#ffdbab>您已拥有此称号"
+  unknow-error: "<color:#ff8181>购买失败，原因未知"
+  no-implement-error: "<color:#ff8181>购买失败，原因vault: not implement"
 list:
   head: "<color:#ffdbab>你目前拥有以下{total}个称号"
   nothing: "<color:#ffdbab>咱似乎还没有任何称号... :("

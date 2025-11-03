@@ -154,6 +154,10 @@ public class TagUtils {
         if (!canBuy(id))return 0.00;
         return Tags.getTags().getDouble(id+".price");
     }
+
+    public static boolean isPlayerHave(Player player, int id) {
+        return PlayerDatas.getPlayerData().getIntegerList(player.getUniqueId()+".owns").contains(id);
+    }
 }
 
 

@@ -121,6 +121,17 @@ public class AliasCommands {
                                 .executes(ctx -> {
                                     new DeserializeItemToFile(ctx.getSource().getSender());
                                     return Command.SINGLE_SUCCESS;
+                                })))
+                .then(Commands.literal("buy")
+                        .requires(ctx -> ctx.getSender().hasPermission("lighttag.buy"))
+                        .then(Commands.argument("id", IntegerArgumentType.integer(0))
+                                .executes(ctx -> {
+                                    if (ctx.getSource().getSender() instanceof Player) {
+                                        ctx.getSource().getSender().sendMessage(TextUtils.getFormatedLang("system.player-only"));
+                                        return Command.SINGLE_SUCCESS;
+                                    }
+                                    new BuyTag((Player) ctx.getSource().getSender(), ctx.getArgument("id", Integer.class));
+                                    return Command.SINGLE_SUCCESS;
                                 })));
     }
 }
