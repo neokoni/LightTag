@@ -126,6 +126,8 @@ buy:
       - "<!i><white>称号: {TagView}"
       - "<!i><white>{TagType}"
       - "<!i><white>ID: {TagId}"
+      - "<!i><white>价格: {TagPrice}"
+      - "<!i><yellow>点击购买"
   items:
     o:
       material: "WHITE_STAINED_GLASS_PANE"

@@ -119,10 +119,11 @@ public class TagUtils {
         TextReplacementConfig replaceType = TextReplacementConfig.builder().matchLiteral("{TagType}").replacement(tagType).build();
         TextReplacementConfig replaceView = TextReplacementConfig.builder().matchLiteral("{TagView}").replacement(getViewById(id)).build();
         TextReplacementConfig replaceId = TextReplacementConfig.builder().matchLiteral("{TagId}").replacement(String.valueOf(id)).build();
+        TextReplacementConfig replacePrice = TextReplacementConfig.builder().matchLiteral("{TagPrice}").replacement(String.valueOf(getPrice(id))).build();
 
         lore_ori.forEach(s-> {
             Component result = MiniMessage.miniMessage().deserialize(s);
-            lore.add(result.replaceText(replaceType).replaceText(replaceView).replaceText(replaceId));
+            lore.add(result.replaceText(replaceType).replaceText(replaceView).replaceText(replaceId).replaceText(replacePrice));
         });
         Component name = MiniMessage.miniMessage().deserialize(templateInfo.getString("title"))
                 .replaceText(replaceType).replaceText(replaceId).replaceText(replaceView);
@@ -143,6 +144,15 @@ public class TagUtils {
 
     public static int getPlayerTotal(Player player) {
         return PlayerDatas.getPlayerData().getIntegerList(player.getUniqueId()+".owns").stream().filter(i->i> -1).toList().size();
+    }
+
+    public static boolean canBuy(int id) {
+        return Tags.getTags().isSet(id+".price");
+    }
+
+    public static double getPrice(int id) {
+        if (!canBuy(id))return 0.00;
+        return Tags.getTags().getDouble(id+".price");
     }
 }
 

@@ -42,6 +42,8 @@ public class BuyTagGUI {
             List<Integer> displayId = ItemPagesUtils.getThisPageIds(allTags, menu.getFreeSlot().size(), cur_page);
 
             for (int i : displayId) {
+                if (!TagUtils.canBuy(i))continue;
+
                 Pair<ItemStack, List<String>> tagItem = TagUtils.getTagItem("buy", i);
 
                 menu.put(tagItem.first());

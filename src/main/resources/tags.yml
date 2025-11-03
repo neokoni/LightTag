@@ -5,7 +5,10 @@
   type: STATIC
   # tag content 称号内容
   content: "&7[Player]&r"
-
+  # 称号购买价格，非强制定义。添加后可通过金钱购买
+  # Tag purchase price, removable
+  # Add price means this tag can be bought with money
+  price: 2.33
 1:
   type: ANIMATION
   # Refresh delay 刷新延迟
