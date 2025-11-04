@@ -1,6 +1,7 @@
 package ink.neokoni.lightTag.Commands.Functions;
 
 import ink.neokoni.lightTag.LightTag;
+import ink.neokoni.lightTag.Utils.TextUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -13,6 +14,7 @@ public class DeserializeItemToFile {
     private final File dataFolder = LightTag.getInstance().getDataFolder();
     public DeserializeItemToFile(CommandSender sender) {
         if(!(sender instanceof Player player)) {
+            sender.sendMessage(TextUtils.getFormatedLang("system.player-only"));
             return;
         }
 

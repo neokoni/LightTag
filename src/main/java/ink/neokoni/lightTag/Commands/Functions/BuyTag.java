@@ -6,7 +6,6 @@ import ink.neokoni.lightTag.Utils.TagUtils;
 import ink.neokoni.lightTag.Utils.TextUtils;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 

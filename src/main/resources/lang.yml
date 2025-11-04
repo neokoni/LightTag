@@ -55,3 +55,4 @@ help:
   - "<color:#ffdbab>/ltag reload 重载配置文件"
   - "<color:#ffdbab>/ltag save 立即保存数据"
   - "<color:#ffdbab>/ltag set 设置称号"
+  - "<color:#ffdbab>/ltag set 购买称号"

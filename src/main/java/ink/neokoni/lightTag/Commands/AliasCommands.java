@@ -23,6 +23,7 @@ public class AliasCommands {
         return Commands.literal(root)
                 .executes(ctx -> {
                     if (!(ctx.getSource().getSender() instanceof Player player)) {
+                        new PrintHelp(ctx.getSource().getSender());
                         return Command.SINGLE_SUCCESS;
                     }
                     new MainGUI(player).open();
@@ -38,6 +39,7 @@ public class AliasCommands {
                         .requires(ctx->ctx.getSender().hasPermission("lighttag.set"))
                         .executes(ctx -> {
                             if (!(ctx.getSource().getSender() instanceof Player)) {
+                                ctx.getSource().getSender().sendMessage(TextUtils.getFormatedLang("system.player-only"));
                                 return Command.SINGLE_SUCCESS;
                             }
 
@@ -126,11 +128,11 @@ public class AliasCommands {
                         .requires(ctx -> ctx.getSender().hasPermission("lighttag.buy"))
                         .then(Commands.argument("id", IntegerArgumentType.integer(0))
                                 .executes(ctx -> {
-                                    if (!(ctx.getSource().getSender() instanceof Player)) {
+                                    if (!(ctx.getSource().getSender() instanceof Player player)) {
                                         ctx.getSource().getSender().sendMessage(TextUtils.getFormatedLang("system.player-only"));
                                         return Command.SINGLE_SUCCESS;
                                     }
-                                    new BuyTag((Player) ctx.getSource().getSender(), ctx.getArgument("id", Integer.class));
+                                    new BuyTag(player, ctx.getArgument("id", Integer.class));
                                     return Command.SINGLE_SUCCESS;
                                 })));
     }
