@@ -1,6 +1,7 @@
 name: LightTag
 version: '0.1'
 main: ink.neokoni.lightTag.LightTag
+loader: ink.neokoni.lightTag.LightTagLoader
 api-version: '1.20.6'
 authors: [ Neokoni ]
 website: https://github.com/Neokoni/LightTag
