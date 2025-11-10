@@ -23,7 +23,7 @@ public class SendPlayerTagList {
             return;
         }
 
-        List<Integer> originData = PlayerDatas.getPlayerData().getIntegerList(player.getUniqueId()+".owns");
+        List<Integer> originData = PlayerDatas.getIntegerList(player.getUniqueId()+".owns");
         List<Integer> ownedTags = new ArrayList<>();
 
         for (int i : originData) {
@@ -42,7 +42,7 @@ public class SendPlayerTagList {
         player.sendMessage(head);
         for (int i : ownedTags) {
             Component tagView = TagUtils.getViewById(i);
-            String type = Tags.getTags().getString(i+".type");
+            String type = Tags.getString(i+".type");
             boolean isAnimation = (type != null && type.equals("ANIMATION"));
             Component tagType = isAnimation?MiniMessage.miniMessage().deserialize(
                     Languages.getLanguages().getString("tag.type-animation")) :

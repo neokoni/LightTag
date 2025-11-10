@@ -5,7 +5,6 @@ import ink.neokoni.lightTag.DataStorage.Tags;
 import ink.neokoni.lightTag.Utils.TagUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 public class PlayerUsingDynamicTagPAPI {
@@ -20,8 +19,7 @@ public class PlayerUsingDynamicTagPAPI {
     public PlayerUsingDynamicTagPAPI(Player p) {
         player = p;
 
-        YamlConfiguration playerData = PlayerDatas.getPlayerData();
-        String usevalue = playerData.getString(player.getUniqueId()+".using");
+        String usevalue = PlayerDatas.getString(player.getUniqueId()+".using");
 
         if(usevalue==null) {
             return;
@@ -37,13 +35,13 @@ public class PlayerUsingDynamicTagPAPI {
             return;
         }
 
-        tagType = Tags.getTags().getString(using+".type");
+        tagType = Tags.getString(using+".type");
 
         if (!tagType.equals("ANIMATION")) {
             return;
         }
 
-        animateDely = Tags.getTags().getInt(using+".delay");
+        animateDely = Tags.getInt(using+".delay");
     }
 
     public String get() {

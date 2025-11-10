@@ -9,21 +9,18 @@ import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 public class AlmanacOfTags {
     public AlmanacOfTags(CommandSender sender) {
-        YamlConfiguration tags = Tags.getTags();
-
         sender.sendMessage(
                 TextUtils.getFormatedLang("almanac.overview", "{total}",
-                        String.valueOf(tags.getKeys(false).size())));
+                        String.valueOf(Tags.getKeys(false).size())));
 
-        for (String i : tags.getKeys(false)) {
+        for (String i : Tags.getKeys(false)) {
             int cur = Integer.valueOf(i);
             Component tagView = TagUtils.getViewById(cur);
 
-            String type = Tags.getTags().getString(i+".type");
+            String type = Tags.getString(i+".type");
             boolean isAnimation = (type != null && type.equals("ANIMATION"));
             Component tagType = isAnimation?MiniMessage.miniMessage().deserialize(
                     Languages.getLanguages().getString("tag.type-animation")) :

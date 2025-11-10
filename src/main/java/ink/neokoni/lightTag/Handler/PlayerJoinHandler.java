@@ -20,28 +20,25 @@ public class PlayerJoinHandler implements Listener {
     @EventHandler
     private void onPlayerJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
-        YamlConfiguration data = PlayerDatas.getPlayerData();
         YamlConfiguration config = Configs.getConfigs();
 
-        if (!data.isSet(player.getUniqueId()+".using")) { // set init tag for new player if enabled
-            data.set(player.getUniqueId()+".using", config.getInt("init-tag"));
+        if (!PlayerDatas.isSet(player.getUniqueId()+".using")) { // set init tag for new player if enabled
+            PlayerDatas.set(player.getUniqueId()+".using", config.getInt("init-tag"));
         }
 
-        int using = data.getInt(player.getUniqueId()+".using");
-        List<Integer> ownedTags = data.getIntegerList(player.getUniqueId()+".owns");
+        int using = PlayerDatas.getInt(player.getUniqueId()+".using");
+        List<Integer> ownedTags = PlayerDatas.getIntegerList(player.getUniqueId()+".owns");
 
         if (!ownedTags.contains(using)) { // player is using a not owned tag?
-            data.set(player.getUniqueId()+".using", config.getInt("init-tag"));
+            PlayerDatas.set(player.getUniqueId()+".using", config.getInt("init-tag"));
         }
 
         if (config.getInt("init-tag") > -1 &&
                 // if not own any tags or not have init tag, give then
-                (ownedTags.isEmpty() || ownedTags.contains(config.getInt("init-tag"))) ) {
-            List<Integer> tmp = new ArrayList<>();
-            ownedTags.add(config.getInt("init-tag"));
-            data.set(player.getUniqueId()+".owns", tmp);
+                (ownedTags.isEmpty() || !ownedTags.contains(config.getInt("init-tag"))) ) {
+            List<Integer> updatedTags = new ArrayList<>(ownedTags);
+            updatedTags.add(config.getInt("init-tag"));
+            PlayerDatas.set(player.getUniqueId()+".owns", updatedTags);
         }
-
-        PlayerDatas.savePlayerData(data);
     }
 }

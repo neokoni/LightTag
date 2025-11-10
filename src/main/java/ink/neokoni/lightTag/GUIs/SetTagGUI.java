@@ -8,7 +8,6 @@ import ink.neokoni.lightTag.Utils.ItemActionExecutor;
 import ink.neokoni.lightTag.Utils.ItemPagesUtils;
 import ink.neokoni.lightTag.Utils.TagUtils;
 import it.unimi.dsi.fastutil.Pair;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -25,8 +24,7 @@ public class SetTagGUI {
         menu = new Template("set", this.player).get();
         cur_page = page;
 
-        YamlConfiguration data = PlayerDatas.getPlayerData();
-        List<Integer> owns = data.getIntegerList(this.player.getUniqueId()+".owns");
+        List<Integer> owns = PlayerDatas.getIntegerList(this.player.getUniqueId()+".owns");
         if (maxPage==0)maxPage=ItemPagesUtils.getMaxPage(owns, menu.getFreeSlot().size());
         if (page>maxPage)cur_page=maxPage;
         if (page<1)cur_page=1;

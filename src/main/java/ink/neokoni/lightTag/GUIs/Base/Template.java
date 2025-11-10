@@ -27,7 +27,6 @@ public class Template {
     private Component usingTagView;
     public Template(String template, Player player) {
         YamlConfiguration templates = Templates.getTemplates();
-        YamlConfiguration playerDatas = PlayerDatas.getPlayerData();
         if (!templates.getKeys(false).contains(template)) { // this gui not defined
             return;
         }
@@ -36,8 +35,8 @@ public class Template {
         row = ui.size();
         menu = new ChestMenu(row);
 
-        if (playerDatas.getInt(player.getUniqueId()+".using")>=0) {
-            usingTagView = TagUtils.getViewById(playerDatas.getInt(player.getUniqueId()+".using"));
+        if (PlayerDatas.getInt(player.getUniqueId()+".using")>=0) {
+            usingTagView = TagUtils.getViewById(PlayerDatas.getInt(player.getUniqueId()+".using"));
         } else {
             usingTagView = Component.text("");
         }

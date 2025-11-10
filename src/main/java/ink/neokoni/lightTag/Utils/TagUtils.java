@@ -12,7 +12,6 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -24,18 +23,17 @@ import java.util.NoSuchElementException;
 
 public class TagUtils {
     public static Component[] getTagContentById(int id) {
-        YamlConfiguration tagsInfo = Tags.getTags();
-        if (tagsInfo.getString(id+".content")==null) {
+        if (Tags.getString(id+".content")==null) {
             return null;
         }
 
-        String tagType = tagsInfo.getString(id+".type");
+        String tagType = Tags.getString(id+".type");
         switch (tagType) {
             case "STATIC" :{
-                return new Component[]{LegacyComponentSerializer.legacyAmpersand().deserialize(tagsInfo.getString(id+".content"))};
+                return new Component[]{LegacyComponentSerializer.legacyAmpersand().deserialize(Tags.getString(id+".content"))};
             }
             case "ANIMATION" : {
-                List<String> frame = tagsInfo.getStringList(id+".content");
+                List<String> frame = Tags.getStringList(id+".content");
                 Component frameComponent[] = new Component[frame.size()];
                 for (int i =0;i< frame.size();i++) {
                     frameComponent[i] = LegacyComponentSerializer.legacyAmpersand().deserialize(frame.get(i));
@@ -44,13 +42,13 @@ public class TagUtils {
             }
             default: {
                 List<String> s = new ArrayList<>();
-                String singleContent = tagsInfo.getString(id+".content");
+                String singleContent = Tags.getString(id+".content");
 
                 if (singleContent != null) {
                     return new Component[]{LegacyComponentSerializer.legacyAmpersand().deserialize(singleContent)};
                 }
 
-                s = tagsInfo.getStringList(id+".content");
+                s = Tags.getStringList(id+".content");
                 Component components[] = new Component[s.size()];
                 for (int i = 0; i < s.size(); i++) {
                     components[i] = LegacyComponentSerializer.legacyAmpersand().deserialize(s.get(i));
@@ -61,7 +59,7 @@ public class TagUtils {
     }
     
     public static String getTypeById(int id) {
-        String type = Tags.getTags().getString(id+".type");
+        String type = Tags.getString(id+".type");
         return type==null?"null" : type;
     }
     
@@ -69,20 +67,23 @@ public class TagUtils {
         String type = getTypeById(id);
         switch (type) {
             case "STATIC": {
-                return LegacyComponentSerializer.legacyAmpersand().deserialize(Tags.getTags().getString(id+".content"));
+                return LegacyComponentSerializer.legacyAmpersand().deserialize(Tags.getString(id+".content"));
             }
             case "ANIMATION": {
-                return LegacyComponentSerializer.legacyAmpersand().deserialize(Tags.getTags().getString(id+".banner"));
+                return LegacyComponentSerializer.legacyAmpersand().deserialize(Tags.getString(id+".banner"));
             }
             default: {
-                String banner = Tags.getTags().getString(id+".banner");
+                String banner = Tags.getString(id+".banner");
                 try {
-                    banner = Tags.getTags().getStringList(id+".content").getFirst();
+                    List<String> contentList = Tags.getStringList(id+".content");
+                    if (!contentList.isEmpty()) {
+                        banner = contentList.getFirst();
+                    }
                 } catch (NoSuchElementException e) {
                     LightTag.getInstance().getLogger().warning("Tag id: "+id+" not have type and not animation");
                 }
                 if (banner==null) {
-                    banner = Tags.getTags().getString(id+".content");
+                    banner = Tags.getString(id+".content");
                 }
                 if (banner!=null) {
                     return LegacyComponentSerializer.legacyAmpersand().deserialize(banner);
@@ -143,20 +144,20 @@ public class TagUtils {
     }
 
     public static int getPlayerTotal(Player player) {
-        return PlayerDatas.getPlayerData().getIntegerList(player.getUniqueId()+".owns").stream().filter(i->i> -1).toList().size();
+        return PlayerDatas.getIntegerList(player.getUniqueId()+".owns").stream().filter(i->i> -1).toList().size();
     }
 
     public static boolean canBuy(int id) {
-        return Tags.getTags().isSet(id+".price");
+        return Tags.isSet(id+".price");
     }
 
     public static double getPrice(int id) {
         if (!canBuy(id))return 0.00;
-        return Tags.getTags().getDouble(id+".price");
+        return Tags.getDouble(id+".price");
     }
 
     public static boolean isPlayerHave(Player player, int id) {
-        return PlayerDatas.getPlayerData().getIntegerList(player.getUniqueId()+".owns").contains(id);
+        return PlayerDatas.getIntegerList(player.getUniqueId()+".owns").contains(id);
     }
 }
 

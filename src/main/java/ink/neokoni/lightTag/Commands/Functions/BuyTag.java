@@ -6,9 +6,9 @@ import ink.neokoni.lightTag.Utils.TagUtils;
 import ink.neokoni.lightTag.Utils.TextUtils;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BuyTag {
@@ -40,11 +40,9 @@ public class BuyTag {
             player.sendMessage(TextUtils.getFormatedLang("buy.unknow-error"));
             return;
         }
-        YamlConfiguration playerData = PlayerDatas.getPlayerData();
-        List<Integer> owns = playerData.getIntegerList(player.getUniqueId()+".owns");
+        List<Integer> owns = new ArrayList<>(PlayerDatas.getIntegerList(player.getUniqueId()+".owns"));
         owns.add(id);
-        playerData.set(player.getUniqueId()+".owns", owns);
-        PlayerDatas.savePlayerData(playerData);
+        PlayerDatas.set(player.getUniqueId()+".owns", owns);
         player.sendMessage(TextUtils.getFormatedLang("buy.success"));
     }
 }

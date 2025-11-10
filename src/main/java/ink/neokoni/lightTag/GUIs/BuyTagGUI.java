@@ -8,7 +8,6 @@ import ink.neokoni.lightTag.Utils.ItemActionExecutor;
 import ink.neokoni.lightTag.Utils.ItemPagesUtils;
 import ink.neokoni.lightTag.Utils.TagUtils;
 import it.unimi.dsi.fastutil.Pair;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -27,8 +26,7 @@ public class BuyTagGUI {
         menu = new Template("buy", player).get();
         cur_page = page;
 
-        YamlConfiguration tags = Tags.getTags();
-        Set<String> keys = tags.getKeys(false);
+        Set<String> keys = Tags.getKeys(false);
         List<Integer> allTags = new ArrayList<>();
         keys.forEach(s-> {
             allTags.add(Integer.valueOf(s));

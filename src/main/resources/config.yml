@@ -6,3 +6,18 @@ init-tag: -1
 # 消息前缀
 # As word "prefix" means
 prefix: "<white>[<color:#96bfff>LTag<white>] "
+
+# 数据存储配置
+# Data storage configuration
+storage:
+  # 存储类型: yaml 或 mysql
+  # Storage type: yaml or mysql
+  type: yaml
+  # MySQL 配置 (仅在 type: mysql 时使用)
+  # MySQL configuration (only used when type: mysql)
+  mysql:
+    host: localhost
+    port: 3306
+    database: lighttag
+    username: root
+    password: ""
