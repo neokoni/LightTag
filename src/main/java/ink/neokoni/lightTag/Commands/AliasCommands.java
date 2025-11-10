@@ -134,6 +134,14 @@ public class AliasCommands {
                                     }
                                     new BuyTag(player, ctx.getArgument("id", Integer.class));
                                     return Command.SINGLE_SUCCESS;
+                                })))
+                .then(Commands.literal("migrate")
+                        .requires(ctx -> ctx.getSender().hasPermission("lighttag.migrate"))
+                        .then(Commands.argument("direction", StringArgumentType.string())
+                                .executes(ctx -> {
+                                    new MigrateStorage(ctx.getSource().getSender(), 
+                                            ctx.getArgument("direction", String.class));
+                                    return Command.SINGLE_SUCCESS;
                                 })));
     }
 }

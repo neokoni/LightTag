@@ -45,38 +45,66 @@ When using MySQL storage, data will be saved in the following tables:
 
 ## 数据迁移 / Data Migration
 
-### 从 YAML 迁移到 MySQL / Migrating from YAML to MySQL
+### 使用迁移命令 / Using Migration Command
+
+插件提供了内置的迁移命令来帮助在不同存储类型之间迁移数据。
+The plugin provides a built-in migration command to help migrate data between different storage types.
+
+#### 从 YAML 迁移到 MySQL / Migrating from YAML to MySQL
 
 1. 确保现有的 `PlayerData.yml` 和 `tags.yml` 文件存在
    Ensure existing `PlayerData.yml` and `tags.yml` files exist
 
-2. 配置 MySQL 数据库连接信息
-   Configure MySQL database connection
-
-3. 停止服务器 / Stop the server
-
-4. 在 `config.yml` 中将 `storage.type` 改为 `mysql`
-   Change `storage.type` to `mysql` in `config.yml`
-
-5. 启动服务器 / Start the server
-
-6. 插件将自动创建必要的数据库表
-   The plugin will automatically create necessary database tables
-
-7. 手动将数据从 YAML 导入到 MySQL（需要手动操作）
-   Manually import data from YAML to MySQL (manual operation required)
-
-### 从 MySQL 迁移回 YAML / Migrating from MySQL back to YAML
-
-1. 停止服务器 / Stop the server
-
-2. 在 `config.yml` 中将 `storage.type` 改为 `yaml`
-   Change `storage.type` to `yaml` in `config.yml`
+2. 在 `config.yml` 中配置 MySQL 数据库连接信息（保持 `storage.type: yaml`）
+   Configure MySQL database connection in `config.yml` (keep `storage.type: yaml`)
 
 3. 启动服务器 / Start the server
 
-4. 手动将数据从 MySQL 导出到 YAML（需要手动操作）
-   Manually export data from MySQL to YAML (manual operation required)
+4. 执行迁移命令 / Execute migration command:
+   ```
+   /ltag migrate yaml-to-mysql
+   ```
+   或 / or
+   ```
+   /ltag migrate yaml2mysql
+   ```
+
+5. 等待迁移完成 / Wait for migration to complete
+
+6. 停止服务器 / Stop the server
+
+7. 在 `config.yml` 中将 `storage.type` 改为 `mysql`
+   Change `storage.type` to `mysql` in `config.yml`
+
+8. 重新启动服务器 / Restart the server
+
+#### 从 MySQL 迁移回 YAML / Migrating from MySQL back to YAML
+
+1. 确保 MySQL 连接配置正确
+   Ensure MySQL connection is configured correctly
+
+2. 执行迁移命令 / Execute migration command:
+   ```
+   /ltag migrate mysql-to-yaml
+   ```
+   或 / or
+   ```
+   /ltag migrate mysql2yaml
+   ```
+
+3. 等待迁移完成 / Wait for migration to complete
+
+4. 停止服务器 / Stop the server
+
+5. 在 `config.yml` 中将 `storage.type` 改为 `yaml`
+   Change `storage.type` to `yaml` in `config.yml`
+
+6. 重新启动服务器 / Restart the server
+
+### 权限 / Permissions
+
+迁移命令需要 `lighttag.migrate` 权限。
+The migration command requires `lighttag.migrate` permission.
 
 ## 数据访问方法 / Data Access Methods
 
